@@ -1,0 +1,1524 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Farmers Hub — Smart Agriculture Platform</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700;900&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+/* ===== VARIABLES ===== */
+:root {
+  --green-dark: #1a3a1f;
+  --green-mid: #2d5a27;
+  --green-accent: #4a8c3f;
+  --green-light: #7ab648;
+  --gold: #c8972a;
+  --gold-light: #e8b84b;
+  --cream: #f7f3ec;
+  --cream-dark: #ede8df;
+  --text-dark: #1c1c1c;
+  --text-mid: #444;
+  --text-light: #777;
+  --white: #ffffff;
+  --shadow: 0 8px 40px rgba(0,0,0,0.12);
+  --shadow-lg: 0 20px 60px rgba(0,0,0,0.18);
+}
+
+/* ===== RESET ===== */
+*,*::before,*::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+body {
+  font-family: 'DM Sans', sans-serif;
+  background: var(--cream);
+  color: var(--text-dark);
+  overflow-x: hidden;
+}
+
+/* ===== SCROLLBAR ===== */
+::-webkit-scrollbar { width: 6px; }
+::-webkit-scrollbar-track { background: var(--cream-dark); }
+::-webkit-scrollbar-thumb { background: var(--green-accent); border-radius: 3px; }
+
+/* ===== HEADER ===== */
+header {
+  position: fixed; top: 0; left: 0; right: 0; z-index: 1000;
+  background: rgba(26,58,31,0.97);
+  backdrop-filter: blur(12px);
+  padding: 0 5vw;
+  height: 70px;
+  display: flex; align-items: center; justify-content: space-between;
+  border-bottom: 1px solid rgba(255,255,255,0.08);
+  transition: all 0.3s;
+}
+.logo {
+  display: flex; align-items: center; gap: 10px;
+  text-decoration: none;
+}
+.logo-icon {
+  width: 38px; height: 38px;
+  background: linear-gradient(135deg, var(--green-light), var(--gold));
+  border-radius: 10px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 20px;
+}
+.logo-text {
+  font-family: 'Playfair Display', serif;
+  font-size: 22px; font-weight: 700;
+  color: var(--white);
+  letter-spacing: 0.3px;
+}
+.logo-text span { color: var(--gold-light); }
+nav { display: flex; gap: 32px; align-items: center; }
+nav a {
+  color: rgba(255,255,255,0.8);
+  text-decoration: none;
+  font-size: 14px; font-weight: 500;
+  letter-spacing: 0.5px;
+  transition: color 0.2s;
+  position: relative;
+}
+nav a::after {
+  content: ''; position: absolute; bottom: -4px; left: 0; right: 0;
+  height: 2px; background: var(--gold-light);
+  transform: scaleX(0); transition: transform 0.2s;
+}
+nav a:hover { color: var(--white); }
+nav a:hover::after { transform: scaleX(1); }
+.nav-cta {
+  background: var(--gold);
+  color: var(--white) !important;
+  padding: 8px 20px;
+  border-radius: 6px;
+  font-weight: 600 !important;
+  transition: background 0.2s !important;
+}
+.nav-cta:hover { background: var(--gold-light) !important; }
+.nav-cta::after { display: none !important; }
+
+/* ===== HERO ===== */
+.hero {
+  min-height: 100vh;
+  background: linear-gradient(160deg, var(--green-dark) 0%, #264d20 50%, #3a6b32 100%);
+  position: relative;
+  display: flex; align-items: center;
+  overflow: hidden;
+  padding-top: 70px;
+}
+.hero-bg-pattern {
+  position: absolute; inset: 0;
+  background-image:
+    radial-gradient(circle at 20% 50%, rgba(74,140,63,0.2) 0%, transparent 50%),
+    radial-gradient(circle at 80% 20%, rgba(200,151,42,0.15) 0%, transparent 40%),
+    radial-gradient(circle at 60% 80%, rgba(122,182,72,0.1) 0%, transparent 40%);
+}
+.hero-grain {
+  position: absolute; inset: 0;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");
+  opacity: 0.4; pointer-events: none;
+}
+/* Decorative wheat stalks */
+.hero-deco {
+  position: absolute; right: -20px; bottom: 0;
+  width: 45vw; height: 90%;
+  background: url('https://images.unsplash.com/photo-1500382017468-9049fed747ef?auto=format&fit=crop&w=1200&q=80') center/cover no-repeat;
+  opacity: 0.18;
+  mask-image: linear-gradient(to left, rgba(0,0,0,0.8), transparent);
+  -webkit-mask-image: linear-gradient(to left, rgba(0,0,0,0.8), transparent);
+}
+.hero-content {
+  position: relative; z-index: 2;
+  padding: 0 5vw;
+  max-width: 680px;
+  animation: fadeUp 0.8s ease both;
+}
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(30px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+.hero-badge {
+  display: inline-flex; align-items: center; gap: 8px;
+  background: rgba(200,151,42,0.2); border: 1px solid rgba(200,151,42,0.4);
+  padding: 6px 14px; border-radius: 20px;
+  color: var(--gold-light); font-size: 13px; font-weight: 500;
+  margin-bottom: 24px;
+}
+.hero h1 {
+  font-family: 'Playfair Display', serif;
+  font-size: clamp(42px, 5.5vw, 72px);
+  font-weight: 900;
+  color: var(--white);
+  line-height: 1.08;
+  margin-bottom: 20px;
+}
+.hero h1 em {
+  font-style: normal;
+  color: var(--gold-light);
+}
+.hero p {
+  font-size: 18px; color: rgba(255,255,255,0.72);
+  line-height: 1.7; margin-bottom: 36px;
+  max-width: 500px;
+}
+.hero-btns { display: flex; gap: 14px; flex-wrap: wrap; }
+.btn-primary {
+  background: var(--gold); color: var(--white);
+  padding: 14px 28px; border: none;
+  border-radius: 8px; font-size: 15px; font-weight: 600;
+  cursor: pointer; transition: all 0.2s;
+  font-family: 'DM Sans', sans-serif;
+  text-decoration: none; display: inline-flex; align-items: center; gap: 8px;
+}
+.btn-primary:hover { background: var(--gold-light); transform: translateY(-2px); box-shadow: 0 8px 24px rgba(200,151,42,0.4); }
+.btn-outline {
+  background: transparent; color: var(--white);
+  padding: 14px 28px; border: 1.5px solid rgba(255,255,255,0.35);
+  border-radius: 8px; font-size: 15px; font-weight: 500;
+  cursor: pointer; transition: all 0.2s;
+  font-family: 'DM Sans', sans-serif;
+  text-decoration: none; display: inline-flex; align-items: center; gap: 8px;
+}
+.btn-outline:hover { border-color: var(--white); background: rgba(255,255,255,0.08); }
+.hero-stats {
+  display: flex; gap: 40px; margin-top: 52px;
+  padding-top: 40px;
+  border-top: 1px solid rgba(255,255,255,0.1);
+  animation: fadeUp 0.8s 0.3s ease both;
+}
+.stat-num {
+  font-family: 'Playfair Display', serif;
+  font-size: 32px; font-weight: 700; color: var(--gold-light);
+}
+.stat-label {
+  font-size: 13px; color: rgba(255,255,255,0.55); margin-top: 2px;
+}
+
+/* ===== SECTION COMMONS ===== */
+.section {
+  padding: 90px 5vw;
+}
+.section-label {
+  display: inline-block;
+  font-size: 12px; font-weight: 600;
+  letter-spacing: 2px; text-transform: uppercase;
+  color: var(--green-accent);
+  margin-bottom: 12px;
+}
+.section-title {
+  font-family: 'Playfair Display', serif;
+  font-size: clamp(30px, 3.5vw, 46px);
+  font-weight: 700; color: var(--green-dark);
+  margin-bottom: 16px; line-height: 1.15;
+}
+.section-sub {
+  font-size: 17px; color: var(--text-mid);
+  line-height: 1.7; max-width: 560px; margin-bottom: 52px;
+}
+
+/* ===== FEATURE CARDS (3 main modules) ===== */
+.features-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 24px;
+}
+.feature-card {
+  background: var(--white);
+  border-radius: 20px;
+  padding: 36px 32px;
+  box-shadow: 0 4px 24px rgba(0,0,0,0.06);
+  cursor: pointer;
+  transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+  position: relative; overflow: hidden;
+  border: 1.5px solid transparent;
+  text-align: left;
+}
+.feature-card::before {
+  content: '';
+  position: absolute; top: 0; left: 0; right: 0; height: 3px;
+  background: linear-gradient(90deg, var(--green-accent), var(--gold));
+  transform: scaleX(0); transform-origin: left;
+  transition: transform 0.3s;
+}
+.feature-card:hover {
+  transform: translateY(-8px);
+  box-shadow: var(--shadow-lg);
+  border-color: rgba(74,140,63,0.15);
+}
+.feature-card:hover::before { transform: scaleX(1); }
+.card-icon {
+  width: 56px; height: 56px;
+  border-radius: 14px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 26px; margin-bottom: 20px;
+}
+.card-icon.green { background: rgba(74,140,63,0.12); }
+.card-icon.gold { background: rgba(200,151,42,0.12); }
+.card-icon.blue { background: rgba(42,100,200,0.1); }
+.feature-card h3 {
+  font-family: 'Playfair Display', serif;
+  font-size: 22px; font-weight: 700;
+  color: var(--green-dark); margin-bottom: 10px;
+}
+.feature-card p {
+  font-size: 15px; color: var(--text-mid);
+  line-height: 1.65; margin-bottom: 24px;
+}
+.card-arrow {
+  display: inline-flex; align-items: center; gap: 6px;
+  font-size: 14px; font-weight: 600; color: var(--green-accent);
+  transition: gap 0.2s;
+}
+.feature-card:hover .card-arrow { gap: 10px; }
+.card-tag {
+  position: absolute; top: 20px; right: 20px;
+  font-size: 11px; font-weight: 600;
+  background: rgba(74,140,63,0.1); color: var(--green-accent);
+  padding: 3px 10px; border-radius: 12px;
+  letter-spacing: 0.5px;
+}
+
+/* ===== SEASONAL BANNER ===== */
+.seasonal-banner {
+  background: linear-gradient(135deg, var(--green-dark), #3a6b32);
+  border-radius: 20px;
+  padding: 40px 48px;
+  display: flex; align-items: center; justify-content: space-between;
+  gap: 20px; flex-wrap: wrap;
+  margin: 0 5vw 60px;
+  position: relative; overflow: hidden;
+}
+.seasonal-banner::after {
+  content: '🌾';
+  position: absolute; right: 60px; top: 50%; transform: translateY(-50%);
+  font-size: 120px; opacity: 0.08;
+}
+.seasonal-left h3 {
+  font-family: 'Playfair Display', serif;
+  font-size: 28px; color: var(--white); margin-bottom: 8px;
+}
+.seasonal-left p { color: rgba(255,255,255,0.65); font-size: 15px; }
+.season-pill {
+  display: inline-block;
+  background: var(--gold); color: var(--white);
+  padding: 4px 12px; border-radius: 12px;
+  font-size: 12px; font-weight: 600; margin-bottom: 10px;
+  letter-spacing: 0.5px;
+}
+
+/* ===== MODAL OVERLAY ===== */
+.modal-overlay {
+  position: fixed; inset: 0; z-index: 2000;
+  background: rgba(10,25,10,0.75);
+  backdrop-filter: blur(6px);
+  display: none; align-items: flex-start; justify-content: center;
+  padding: 20px;
+  overflow-y: auto;
+}
+.modal-overlay.active { display: flex; }
+.modal {
+  background: var(--white);
+  border-radius: 24px;
+  width: 100%; max-width: 960px;
+  margin: auto;
+  animation: modalIn 0.35s cubic-bezier(0.34, 1.56, 0.64, 1) both;
+  overflow: hidden;
+  box-shadow: 0 30px 80px rgba(0,0,0,0.3);
+}
+@keyframes modalIn {
+  from { opacity: 0; transform: scale(0.88) translateY(20px); }
+  to { opacity: 1; transform: scale(1) translateY(0); }
+}
+.modal-header {
+  background: linear-gradient(135deg, var(--green-dark), #3a6b32);
+  padding: 28px 32px;
+  display: flex; align-items: center; justify-content: space-between;
+}
+.modal-header h2 {
+  font-family: 'Playfair Display', serif;
+  color: var(--white); font-size: 26px;
+}
+.modal-header p { color: rgba(255,255,255,0.65); font-size: 14px; margin-top: 4px; }
+.modal-close {
+  width: 40px; height: 40px;
+  background: rgba(255,255,255,0.15);
+  border: none; border-radius: 10px;
+  color: white; font-size: 20px;
+  cursor: pointer; transition: background 0.2s;
+  display: flex; align-items: center; justify-content: center;
+  flex-shrink: 0;
+}
+.modal-close:hover { background: rgba(255,255,255,0.25); }
+.modal-body { padding: 32px; }
+
+/* ===== CROP MODAL SEARCH ===== */
+.search-bar {
+  position: relative; margin-bottom: 24px;
+}
+.search-bar input {
+  width: 100%;
+  padding: 14px 20px 14px 48px;
+  border: 2px solid var(--cream-dark);
+  border-radius: 12px;
+  font-size: 15px; font-family: 'DM Sans', sans-serif;
+  background: var(--cream);
+  transition: border-color 0.2s;
+  outline: none;
+}
+.search-bar input:focus { border-color: var(--green-accent); }
+.search-icon {
+  position: absolute; left: 16px; top: 50%;
+  transform: translateY(-50%);
+  font-size: 18px; opacity: 0.5;
+}
+.filter-tabs {
+  display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 24px;
+}
+.filter-tab {
+  padding: 6px 16px;
+  border: 1.5px solid var(--cream-dark);
+  border-radius: 20px; background: var(--white);
+  font-size: 13px; font-weight: 500; cursor: pointer;
+  transition: all 0.2s; font-family: 'DM Sans', sans-serif;
+  color: var(--text-mid);
+}
+.filter-tab:hover, .filter-tab.active {
+  background: var(--green-accent); color: var(--white); border-color: var(--green-accent);
+}
+.crop-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+  gap: 14px;
+}
+.crop-card {
+  background: var(--cream);
+  border-radius: 14px;
+  padding: 20px 16px;
+  cursor: pointer; text-align: center;
+  transition: all 0.25s; border: 2px solid transparent;
+}
+.crop-card:hover {
+  border-color: var(--green-accent);
+  background: white;
+  transform: translateY(-4px);
+  box-shadow: 0 8px 24px rgba(0,0,0,0.08);
+}
+.crop-emoji { font-size: 40px; margin-bottom: 8px; }
+.crop-name { font-size: 15px; font-weight: 600; color: var(--green-dark); }
+.crop-season { font-size: 12px; color: var(--text-light); margin-top: 3px; }
+.crop-badge {
+  display: inline-block;
+  font-size: 10px; font-weight: 600;
+  padding: 2px 8px; border-radius: 8px; margin-top: 6px;
+  letter-spacing: 0.3px;
+}
+.badge-rabi { background: rgba(42,100,200,0.1); color: #2a64c8; }
+.badge-kharif { background: rgba(74,140,63,0.1); color: var(--green-accent); }
+.badge-zaid { background: rgba(200,151,42,0.12); color: var(--gold); }
+.badge-perennial { background: rgba(150,80,180,0.1); color: #9650b4; }
+
+/* ===== CROP DETAIL VIEW ===== */
+.crop-detail { display: none; }
+.crop-detail.active { display: block; }
+.crop-list-view { }
+.crop-list-view.hidden { display: none; }
+.back-btn {
+  display: inline-flex; align-items: center; gap: 8px;
+  padding: 8px 16px; border-radius: 8px;
+  background: var(--cream-dark); border: none;
+  font-size: 14px; font-weight: 500; cursor: pointer;
+  font-family: 'DM Sans', sans-serif; color: var(--text-dark);
+  margin-bottom: 24px; transition: background 0.2s;
+}
+.back-btn:hover { background: #ddd; }
+.crop-detail-header {
+  display: flex; gap: 24px; align-items: flex-start;
+  background: linear-gradient(135deg, #f0f7ee, #e8f0e4);
+  border-radius: 16px; padding: 28px; margin-bottom: 28px;
+  flex-wrap: wrap;
+}
+.crop-detail-emoji { font-size: 72px; line-height: 1; }
+.crop-detail-info h2 {
+  font-family: 'Playfair Display', serif;
+  font-size: 28px; color: var(--green-dark); margin-bottom: 6px;
+}
+.crop-detail-info p { font-size: 15px; color: var(--text-mid); line-height: 1.6; }
+.crop-meta-pills {
+  display: flex; gap: 8px; flex-wrap: wrap; margin-top: 12px;
+}
+.meta-pill {
+  padding: 4px 12px; border-radius: 10px;
+  font-size: 12px; font-weight: 600;
+  background: rgba(26,58,31,0.08); color: var(--green-dark);
+}
+.detail-sections { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+@media (max-width: 600px) { .detail-sections { grid-template-columns: 1fr; } }
+.detail-box {
+  background: var(--cream);
+  border-radius: 14px; padding: 22px;
+  border-left: 4px solid var(--green-accent);
+}
+.detail-box.gold-border { border-left-color: var(--gold); }
+.detail-box.red-border { border-left-color: #e05252; }
+.detail-box.blue-border { border-left-color: #4a7fcb; }
+.detail-box h4 {
+  font-family: 'Playfair Display', serif;
+  font-size: 16px; color: var(--green-dark); margin-bottom: 12px;
+  display: flex; align-items: center; gap: 8px;
+}
+.detail-box ul { padding-left: 18px; }
+.detail-box li { font-size: 14px; color: var(--text-mid); line-height: 1.7; }
+.detail-box p { font-size: 14px; color: var(--text-mid); line-height: 1.7; }
+.steps-list { list-style: none; padding: 0; }
+.steps-list li {
+  display: flex; gap: 12px; margin-bottom: 14px;
+  font-size: 14px; color: var(--text-mid); line-height: 1.6;
+}
+.step-num {
+  width: 26px; height: 26px; border-radius: 50%;
+  background: var(--green-accent); color: white;
+  font-size: 12px; font-weight: 700;
+  display: flex; align-items: center; justify-content: center;
+  flex-shrink: 0; margin-top: 2px;
+}
+.beneficiary-chips { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 10px; }
+.chip {
+  padding: 6px 14px; border-radius: 12px;
+  font-size: 13px; font-weight: 500;
+  background: rgba(74,140,63,0.1); color: var(--green-accent);
+  border: 1px solid rgba(74,140,63,0.2);
+}
+
+/* ===== MARKET ACCESS MODAL ===== */
+.market-table {
+  width: 100%; border-collapse: collapse;
+}
+.market-table th {
+  background: var(--green-dark); color: white;
+  padding: 12px 16px; text-align: left; font-size: 13px; font-weight: 600;
+}
+.market-table th:first-child { border-radius: 10px 0 0 0; }
+.market-table th:last-child { border-radius: 0 10px 0 0; }
+.market-table td {
+  padding: 12px 16px; font-size: 14px; color: var(--text-dark);
+  border-bottom: 1px solid var(--cream-dark);
+}
+.market-table tr:nth-child(even) td { background: var(--cream); }
+.price-up { color: #2e7d32; font-weight: 600; }
+.price-down { color: #c62828; font-weight: 600; }
+.price-stable { color: var(--gold); font-weight: 600; }
+.market-filters { display: flex; gap: 12px; flex-wrap: wrap; margin-bottom: 20px; }
+.mfilter-select {
+  padding: 9px 14px; border: 2px solid var(--cream-dark);
+  border-radius: 9px; font-size: 14px; background: white;
+  font-family: 'DM Sans', sans-serif; outline: none; cursor: pointer;
+  transition: border-color 0.2s;
+}
+.mfilter-select:focus { border-color: var(--green-accent); }
+.market-stat-cards {
+  display: grid; grid-template-columns: repeat(3,1fr); gap: 14px; margin-bottom: 24px;
+}
+.mstat {
+  background: var(--cream);
+  border-radius: 12px; padding: 16px;
+  text-align: center;
+}
+.mstat-val { font-family: 'Playfair Display', serif; font-size: 24px; color: var(--green-dark); font-weight: 700; }
+.mstat-lbl { font-size: 12px; color: var(--text-light); margin-top: 3px; }
+.connect-buyers-section {
+  margin-top: 28px;
+  background: linear-gradient(135deg, #f0f7ee, #e8f0e4);
+  border-radius: 16px; padding: 24px;
+}
+.connect-buyers-section h4 {
+  font-family: 'Playfair Display', serif;
+  font-size: 18px; color: var(--green-dark); margin-bottom: 16px;
+}
+.buyer-cards { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 12px; }
+.buyer-card {
+  background: white; border-radius: 12px; padding: 16px;
+  box-shadow: 0 2px 12px rgba(0,0,0,0.05);
+}
+.buyer-name { font-weight: 600; font-size: 15px; color: var(--green-dark); }
+.buyer-crop { font-size: 13px; color: var(--text-light); margin-top: 3px; }
+.buyer-price { font-size: 15px; color: var(--green-accent); font-weight: 600; margin-top: 6px; }
+.buyer-location { font-size: 12px; color: var(--text-light); margin-top: 4px; }
+.contact-btn-sm {
+  margin-top: 10px; padding: 6px 14px;
+  background: var(--green-accent); color: white;
+  border: none; border-radius: 7px; font-size: 12px;
+  font-weight: 600; cursor: pointer; font-family: 'DM Sans', sans-serif;
+  transition: background 0.2s;
+}
+.contact-btn-sm:hover { background: var(--green-mid); }
+
+/* ===== CONSULTATION MODAL ===== */
+.consult-layout { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; }
+@media (max-width: 640px) { .consult-layout { grid-template-columns: 1fr; } }
+.consult-form { background: var(--cream); border-radius: 16px; padding: 24px; }
+.consult-form h4 {
+  font-family: 'Playfair Display', serif;
+  font-size: 18px; color: var(--green-dark); margin-bottom: 18px;
+}
+.form-group { margin-bottom: 16px; }
+.form-group label { display: block; font-size: 13px; font-weight: 600; color: var(--text-dark); margin-bottom: 6px; }
+.form-group input, .form-group select, .form-group textarea {
+  width: 100%; padding: 11px 14px;
+  border: 2px solid #e0e0e0; border-radius: 10px;
+  font-size: 14px; font-family: 'DM Sans', sans-serif;
+  background: white; outline: none;
+  transition: border-color 0.2s; resize: vertical;
+}
+.form-group input:focus, .form-group select:focus, .form-group textarea:focus {
+  border-color: var(--green-accent);
+}
+.submit-btn {
+  width: 100%; padding: 13px;
+  background: var(--green-accent); color: white;
+  border: none; border-radius: 10px;
+  font-size: 15px; font-weight: 600;
+  font-family: 'DM Sans', sans-serif;
+  cursor: pointer; transition: background 0.2s;
+  margin-top: 4px;
+}
+.submit-btn:hover { background: var(--green-mid); }
+.consult-questions { }
+.consult-questions h4 {
+  font-family: 'Playfair Display', serif;
+  font-size: 18px; color: var(--green-dark); margin-bottom: 16px;
+}
+.question-cards { display: flex; flex-direction: column; gap: 12px; max-height: 420px; overflow-y: auto; }
+.q-card {
+  background: white; border-radius: 12px; padding: 16px;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+  border-left: 3px solid var(--green-accent);
+}
+.q-card.pending { border-left-color: var(--gold); }
+.q-card.answered { border-left-color: #4a7fcb; }
+.q-meta { font-size: 12px; color: var(--text-light); margin-bottom: 6px; }
+.q-text { font-size: 14px; color: var(--text-dark); font-weight: 500; }
+.q-answer { font-size: 13px; color: var(--text-mid); margin-top: 8px; padding-top: 8px; border-top: 1px dashed #ddd; line-height: 1.6; }
+.q-status {
+  display: inline-block; font-size: 11px; font-weight: 600;
+  padding: 2px 8px; border-radius: 6px; margin-top: 6px;
+}
+.status-answered { background: rgba(42,100,200,0.1); color: #2a64c8; }
+.status-pending { background: rgba(200,151,42,0.1); color: var(--gold); }
+.status-new { background: rgba(74,140,63,0.1); color: var(--green-accent); }
+.success-toast {
+  display: none;
+  padding: 12px 20px; border-radius: 10px;
+  background: #e8f5e9; border: 1px solid #a5d6a7;
+  color: #2e7d32; font-size: 14px; font-weight: 500;
+  margin-top: 12px; align-items: center; gap: 8px;
+}
+.success-toast.show { display: flex; }
+
+/* ===== CONTACT SECTION ===== */
+.contact-section {
+  background: var(--green-dark);
+  padding: 70px 5vw;
+  display: grid; grid-template-columns: 1fr 1fr; gap: 60px;
+  align-items: center;
+}
+@media (max-width: 700px) { .contact-section { grid-template-columns: 1fr; } }
+.contact-left h2 {
+  font-family: 'Playfair Display', serif;
+  font-size: 36px; color: white; margin-bottom: 16px;
+}
+.contact-left p { color: rgba(255,255,255,0.6); line-height: 1.7; font-size: 16px; }
+.contact-items { margin-top: 32px; display: flex; flex-direction: column; gap: 16px; }
+.contact-item { display: flex; align-items: center; gap: 14px; }
+.contact-icon {
+  width: 44px; height: 44px;
+  background: rgba(255,255,255,0.08);
+  border-radius: 10px; display: flex; align-items: center; justify-content: center;
+  font-size: 20px; flex-shrink: 0;
+}
+.contact-info .label { font-size: 12px; color: rgba(255,255,255,0.4); text-transform: uppercase; letter-spacing: 1px; }
+.contact-info .value { font-size: 15px; color: white; font-weight: 500; margin-top: 2px; }
+.contact-right {
+  background: white; border-radius: 20px; padding: 32px;
+}
+.contact-right h3 {
+  font-family: 'Playfair Display', serif;
+  font-size: 22px; color: var(--green-dark); margin-bottom: 20px;
+}
+
+/* ===== FOOTER ===== */
+footer {
+  background: #0f2012;
+  padding: 32px 5vw;
+  display: flex; align-items: center; justify-content: space-between;
+  flex-wrap: gap; gap: 16px;
+}
+footer p { color: rgba(255,255,255,0.4); font-size: 13px; }
+.footer-links { display: flex; gap: 24px; }
+.footer-links a { color: rgba(255,255,255,0.4); text-decoration: none; font-size: 13px; transition: color 0.2s; }
+.footer-links a:hover { color: var(--gold-light); }
+
+/* ===== MOBILE NAV ===== */
+.hamburger { display: none; background: none; border: none; cursor: pointer; padding: 4px; }
+.hamburger span {
+  display: block; width: 22px; height: 2px;
+  background: white; margin: 5px 0; border-radius: 2px;
+  transition: all 0.3s;
+}
+@media (max-width: 768px) {
+  .hamburger { display: block; }
+  nav { display: none; position: absolute; top: 70px; left: 0; right: 0;
+    background: var(--green-dark); flex-direction: column; gap: 0; padding: 12px 0; }
+  nav.open { display: flex; }
+  nav a { padding: 12px 24px; margin: 0; border-bottom: 1px solid rgba(255,255,255,0.06); }
+  .hero-stats { gap: 24px; }
+  .market-stat-cards { grid-template-columns: 1fr 1fr; }
+}
+
+/* ===== SCROLL REVEAL ===== */
+.reveal {
+  opacity: 0; transform: translateY(30px);
+  transition: opacity 0.6s, transform 0.6s;
+}
+.reveal.visible { opacity: 1; transform: none; }
+
+/* ===== MODAL TRANSITIONS ===== */
+.crop-detail { animation: fadeIn 0.25s ease; }
+@keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+</style>
+</head>
+<body>
+
+<!-- ========== HEADER ========== -->
+<header id="header">
+  <a href="#" class="logo">
+    <div class="logo-icon">🌾</div>
+    <div class="logo-text">Farmers <span>Hub</span></div>
+  </a>
+  <button class="hamburger" onclick="document.querySelector('nav').classList.toggle('open')">
+    <span></span><span></span><span></span>
+  </button>
+  <nav>
+    <a href="#">Home</a>
+    <a href="#services">Services</a>
+    <a href="#products">Products</a>
+    <a href="#contact">Contact</a>
+    <a href="#" class="nav-cta" onclick="openModal('crop-modal')">Explore Crops</a>
+  </nav>
+</header>
+
+<!-- ========== HERO ========== -->
+<section class="hero">
+  <div class="hero-bg-pattern"></div>
+  <div class="hero-grain"></div>
+  <div class="hero-deco"></div>
+  <div class="hero-content">
+    <div class="hero-badge">🇮🇳 Serving Maharashtra & Beyond</div>
+    <h1>Grow <em>Smarter</em>, Harvest Better</h1>
+    <p>Your complete digital farming companion — crop guidance, real-time market prices, and expert consultations all in one platform.</p>
+    <div class="hero-btns">
+      <button class="btn-primary" onclick="openModal('crop-modal')">🌱 Explore Crops</button>
+      <button class="btn-outline" onclick="openModal('consult-modal')">💬 Ask an Expert</button>
+    </div>
+    <div class="hero-stats">
+      <div>
+        <div class="stat-num">50+</div>
+        <div class="stat-label">Crop Guides</div>
+      </div>
+      <div>
+        <div class="stat-num">200+</div>
+        <div class="stat-label">Verified Buyers</div>
+      </div>
+      <div>
+        <div class="stat-num">24/7</div>
+        <div class="stat-label">Expert Support</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ========== SEASONAL BANNER ========== -->
+<div class="seasonal-banner reveal" id="services">
+  <div class="seasonal-left">
+    <div class="season-pill">🌼 Current Season: Rabi 2025–26</div>
+    <h3>Optimal crops for this season</h3>
+    <p>Wheat, Mustard, Chickpea, and Potato are top-performing right now</p>
+  </div>
+  <button class="btn-primary" onclick="openModal('crop-modal'); setFilter('rabi')">View Rabi Crops →</button>
+</div>
+
+<!-- ========== 3 MAIN FEATURE CARDS ========== -->
+<section class="section reveal" id="products">
+  <div class="section-label">What We Offer</div>
+  <h2 class="section-title">Your Digital Farm Assistant</h2>
+  <p class="section-sub">Three powerful tools built for every Indian farmer — from crop knowledge to market connections.</p>
+  <div class="features-grid">
+
+    <!-- Crop Guide -->
+    <div class="feature-card" onclick="openModal('crop-modal')">
+      <div class="card-tag">50+ Crops</div>
+      <div class="card-icon green">🌱</div>
+      <h3>Crop Farming Guide</h3>
+      <p>Detailed guides for every crop — fertilizer requirements, irrigation schedules, step-by-step sowing procedures, and who benefits most from each crop.</p>
+      <div class="card-arrow">Browse Crops <span>→</span></div>
+    </div>
+
+    <!-- Market Access -->
+    <div class="feature-card" onclick="openModal('market-modal')">
+      <div class="card-tag">Live Prices</div>
+      <div class="card-icon gold">📊</div>
+      <h3>Market Access</h3>
+      <p>Real-time mandi prices across Maharashtra, connect directly with verified buyers, and get the best price for your harvest without middlemen.</p>
+      <div class="card-arrow">Check Prices <span>→</span></div>
+    </div>
+
+    <!-- Consultation -->
+    <div class="feature-card" onclick="openModal('consult-modal')">
+      <div class="card-tag">Free Q&A</div>
+      <div class="card-icon blue">👨‍🌾</div>
+      <h3>Expert Consultation</h3>
+      <p>Raise your farming doubts and get answers from certified agronomists. Browse community Q&A or submit your own question for personalised guidance.</p>
+      <div class="card-arrow">Ask a Question <span>→</span></div>
+    </div>
+
+  </div>
+</section>
+
+<!-- ========== CONTACT SECTION ========== -->
+<div class="contact-section reveal" id="contact">
+  <div class="contact-left">
+    <h2>We're Here to Help</h2>
+    <p>Our team of agricultural experts is available to support farmers across Maharashtra and beyond. Reach out anytime.</p>
+    <div class="contact-items">
+      <div class="contact-item">
+        <div class="contact-icon">📧</div>
+        <div class="contact-info">
+          <div class="label">Email</div>
+          <div class="value">info@farmershub.com</div>
+        </div>
+      </div>
+      <div class="contact-item">
+        <div class="contact-icon">📞</div>
+        <div class="contact-info">
+          <div class="label">Phone</div>
+          <div class="value">+91 98765 43210</div>
+        </div>
+      </div>
+      <div class="contact-item">
+        <div class="contact-icon">📍</div>
+        <div class="contact-info">
+          <div class="label">Location</div>
+          <div class="value">Pune, Maharashtra, India</div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="contact-right">
+    <h3>Send us a message</h3>
+    <div class="form-group">
+      <label>Your Name</label>
+      <input type="text" placeholder="e.g. Ramesh Patil">
+    </div>
+    <div class="form-group">
+      <label>Phone Number</label>
+      <input type="tel" placeholder="+91 XXXXX XXXXX">
+    </div>
+    <div class="form-group">
+      <label>Message</label>
+      <textarea rows="3" placeholder="How can we help you?"></textarea>
+    </div>
+    <button class="submit-btn" onclick="showToast('contact-toast')">Send Message</button>
+    <div class="success-toast" id="contact-toast">✅ Message sent! We'll get back to you soon.</div>
+  </div>
+</div>
+
+<!-- ========== FOOTER ========== -->
+<footer>
+  <p>© 2026 Farmers Hub | Smart Agriculture Platform | Maharashtra, India</p>
+  <div class="footer-links">
+    <a href="#">Privacy</a>
+    <a href="#">Terms</a>
+    <a href="#">About</a>
+    <a href="#">Help</a>
+  </div>
+</footer>
+
+
+<!-- ================================================================
+     MODAL 1 — CROP FARMING GUIDE
+================================================================ -->
+<div class="modal-overlay" id="crop-modal">
+  <div class="modal">
+    <div class="modal-header">
+      <div>
+        <h2>🌱 Crop Farming Guide</h2>
+        <p>Search and explore detailed farming guides for any crop</p>
+      </div>
+      <button class="modal-close" onclick="closeModal('crop-modal')">✕</button>
+    </div>
+    <div class="modal-body">
+
+      <!-- LIST VIEW -->
+      <div class="crop-list-view" id="crop-list-view">
+        <div class="search-bar">
+          <span class="search-icon">🔍</span>
+          <input type="text" id="crop-search" placeholder="Search crops — wheat, rice, tomato..." oninput="filterCrops()">
+        </div>
+        <div class="filter-tabs" id="filter-tabs">
+          <button class="filter-tab active" onclick="setFilter('all')">All Crops</button>
+          <button class="filter-tab" onclick="setFilter('rabi')">🌾 Rabi</button>
+          <button class="filter-tab" onclick="setFilter('kharif')">☔ Kharif</button>
+          <button class="filter-tab" onclick="setFilter('zaid')">☀️ Zaid</button>
+          <button class="filter-tab" onclick="setFilter('perennial')">🌳 Perennial</button>
+        </div>
+        <div class="crop-grid" id="crop-grid"></div>
+        <p id="no-crops" style="display:none; text-align:center; color:var(--text-light); padding:40px 0;">No crops found. Try a different search.</p>
+      </div>
+
+      <!-- DETAIL VIEW -->
+      <div class="crop-detail" id="crop-detail-view">
+        <button class="back-btn" onclick="showCropList()">← Back to all crops</button>
+        <div id="crop-detail-content"></div>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+
+<!-- ================================================================
+     MODAL 2 — MARKET ACCESS
+================================================================ -->
+<div class="modal-overlay" id="market-modal">
+  <div class="modal" style="max-width: 900px;">
+    <div class="modal-header">
+      <div>
+        <h2>📊 Market Access</h2>
+        <p>Live mandi prices and direct buyer connections</p>
+      </div>
+      <button class="modal-close" onclick="closeModal('market-modal')">✕</button>
+    </div>
+    <div class="modal-body">
+
+      <div class="market-stat-cards">
+        <div class="mstat">
+          <div class="mstat-val">₹2,180</div>
+          <div class="mstat-lbl">Avg Wheat Price/Qtl</div>
+        </div>
+        <div class="mstat">
+          <div class="mstat-val">+4.2%</div>
+          <div class="mstat-lbl">Price Change (Week)</div>
+        </div>
+        <div class="mstat">
+          <div class="mstat-val">18 Mandis</div>
+          <div class="mstat-lbl">Live Data</div>
+        </div>
+      </div>
+
+      <div class="market-filters">
+        <select class="mfilter-select" onchange="filterMarket(this.value)">
+          <option value="all">All Crops</option>
+          <option value="wheat">Wheat</option>
+          <option value="rice">Rice</option>
+          <option value="soybean">Soybean</option>
+          <option value="cotton">Cotton</option>
+          <option value="onion">Onion</option>
+          <option value="tomato">Tomato</option>
+        </select>
+        <select class="mfilter-select">
+          <option>All Districts</option>
+          <option>Pune</option>
+          <option>Nashik</option>
+          <option>Aurangabad</option>
+          <option>Kolhapur</option>
+          <option>Nagpur</option>
+        </select>
+      </div>
+
+      <table class="market-table" id="market-table">
+        <thead>
+          <tr>
+            <th>Crop</th>
+            <th>Market/Mandi</th>
+            <th>Min Price (₹/Qtl)</th>
+            <th>Max Price (₹/Qtl)</th>
+            <th>Modal Price</th>
+            <th>Trend</th>
+          </tr>
+        </thead>
+        <tbody id="market-tbody"></tbody>
+      </table>
+
+      <div class="connect-buyers-section" style="margin-top:28px;">
+        <h4>🤝 Connect With Verified Buyers</h4>
+        <div class="buyer-cards" id="buyer-cards"></div>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+
+<!-- ================================================================
+     MODAL 3 — CONSULTATION
+================================================================ -->
+<div class="modal-overlay" id="consult-modal">
+  <div class="modal" style="max-width: 880px;">
+    <div class="modal-header">
+      <div>
+        <h2>👨‍🌾 Expert Consultation</h2>
+        <p>Ask your farming questions and get expert answers</p>
+      </div>
+      <button class="modal-close" onclick="closeModal('consult-modal')">✕</button>
+    </div>
+    <div class="modal-body">
+      <div class="consult-layout">
+
+        <!-- Question Form -->
+        <div class="consult-form">
+          <h4>🌿 Raise Your Doubt</h4>
+          <div class="form-group">
+            <label>Your Name</label>
+            <input type="text" id="q-name" placeholder="e.g. Suresh Patil">
+          </div>
+          <div class="form-group">
+            <label>Crop Concerned</label>
+            <select id="q-crop">
+              <option value="">Select crop...</option>
+              <option>Wheat</option><option>Rice</option><option>Sugarcane</option>
+              <option>Soybean</option><option>Cotton</option><option>Tomato</option>
+              <option>Onion</option><option>Maize</option><option>Other</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label>Your Question</label>
+            <textarea id="q-text" rows="4" placeholder="Describe your farming problem in detail..."></textarea>
+          </div>
+          <div class="form-group">
+            <label>District</label>
+            <select id="q-district">
+              <option value="">Select district...</option>
+              <option>Pune</option><option>Nashik</option><option>Aurangabad</option>
+              <option>Kolhapur</option><option>Nagpur</option><option>Solapur</option><option>Other</option>
+            </select>
+          </div>
+          <button class="submit-btn" onclick="submitQuestion()">Submit Question</button>
+          <div class="success-toast" id="q-toast">✅ Question submitted! Our expert will reply within 24 hours.</div>
+        </div>
+
+        <!-- Community Q&A -->
+        <div class="consult-questions">
+          <h4>💬 Community Q&A</h4>
+          <div class="question-cards" id="question-list"></div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<!-- ================================================================
+     JAVASCRIPT — ALL LOGIC
+================================================================ -->
+<script>
+
+// ===== CROP DATABASE =====
+const crops = [
+  {
+    id: 1, name: "Wheat", emoji: "🌾", season: "Rabi (Oct–Mar)", category: "rabi",
+    tagline: "India's most important food grain crop",
+    soil: "Well-drained loamy or clay-loam soil, pH 6.0–7.5",
+    climate: "Cool & dry; 10–15°C at sowing, 21–26°C at harvest",
+    duration: "120–150 days",
+    yield: "25–45 Qtl/Acre",
+    fertilizers: ["Urea: 50 kg/acre basal dose", "DAP: 25 kg/acre at sowing", "Potash (MOP): 15 kg/acre", "Zinc Sulphate: 10 kg/acre if deficient"],
+    steps: [
+      "Deep ploughing in October; field preparation with 2–3 harrowing passes",
+      "Apply FYM or compost (4–6 tonnes/acre) 3 weeks before sowing",
+      "Treat seeds with Thiram 2.5g/kg + Carbendazim for disease control",
+      "Sow seeds 2–3 cm deep in rows 20–22 cm apart; seed rate 40–45 kg/acre",
+      "First irrigation (Crown Root Initiation) at 20–25 DAS",
+      "Apply Urea top-dress in 2 splits: at CRI stage & at tillering",
+      "Watch for Yellow Rust; spray Propiconazole 0.1% if needed",
+      "Harvest when moisture is 14–18%; thresh and store at <12% moisture"
+    ],
+    beneficiaries: ["Small & Marginal Farmers", "North & Central India Farmers", "Punjab & Haryana Specialists", "Maharashtra Rabi Farmers"],
+    pesticides: ["Propiconazole 25EC for rust", "Chlorpyrifos for termites", "Mancozeb for blight"],
+    water: "5–6 irrigations; critical at CRI, tillering, jointing, booting, milky grain stages",
+    msp: "₹2,275 / Qtl (2025-26)"
+  },
+  {
+    id: 2, name: "Rice (Paddy)", emoji: "🌾", season: "Kharif (Jun–Nov)", category: "kharif",
+    tagline: "The staple food of more than half of India",
+    soil: "Heavy clay or clay-loam, water-retentive; pH 5.5–7.0",
+    climate: "Hot & humid; 25–35°C with 150–200 cm rainfall or irrigation",
+    duration: "100–160 days",
+    yield: "20–35 Qtl/Acre",
+    fertilizers: ["Urea: 55 kg/acre (3 splits)", "SSP: 40 kg/acre basal", "MOP: 20 kg/acre", "Zinc Sulphate: 10 kg/acre"],
+    steps: [
+      "Nursery preparation in May-June; sow pre-germinated seeds in wet nursery",
+      "Flood nursery area; maintain 5 cm water after emergence",
+      "Transplant 25–30 day old seedlings at 2–3 seedlings per hill",
+      "Row spacing: 20×15 cm; maintain 5–7 cm standing water",
+      "Apply basal fertiliser before transplanting; top-dress Urea at tillering",
+      "Drain field at panicle initiation for 5–7 days to promote root growth",
+      "Monitor for Brown Plant Hopper; use Imidacloprid if required",
+      "Harvest when 80–85% of grains are golden yellow; thresh within 24 hrs"
+    ],
+    beneficiaries: ["Eastern India Farmers", "Maharashtra Konkan Farmers", "Irrigated Land Holders", "Tribal Area Farmers"],
+    pesticides: ["Chlorantraniliprole for stem borer", "Carbendazim for blast", "Imidacloprid for BPH"],
+    water: "Continuous flooding 5 cm; alternate wetting-drying at heading stage",
+    msp: "₹2,183 / Qtl (2025-26)"
+  },
+  {
+    id: 3, name: "Soybean", emoji: "🫘", season: "Kharif (Jun–Sep)", category: "kharif",
+    tagline: "Maharashtra's golden cash crop — the 'Yellow Revolution'",
+    soil: "Well-drained medium-black soil; pH 6.0–7.5",
+    climate: "Warm & humid; 26–30°C; 600–1000mm rainfall",
+    duration: "90–110 days",
+    yield: "8–15 Qtl/Acre",
+    fertilizers: ["Rhizobium inoculant on seeds (no Urea needed)", "SSP: 60 kg/acre at sowing", "MOP: 20 kg/acre", "Sulphur: 8 kg/acre"],
+    steps: [
+      "Prepare field with deep ploughing; ridge-furrow method recommended",
+      "Treat seeds with Rhizobium + PSB culture for biological nitrogen fixation",
+      "Sow at 2–3 cm depth; row-to-row 45 cm, plant-to-plant 5 cm",
+      "Inter-cultivation at 15 and 30 DAS to control weeds",
+      "Apply Pendimethalin 1L/acre pre-emergence for weed management",
+      "Spray Quizalofop-ethyl for grassy weed control at 20–25 DAS",
+      "Foliar spray of MgSO₄ and micronutrients at pod-filling stage",
+      "Harvest when 95% pods turn brown; avoid delayed harvest to prevent shattering"
+    ],
+    beneficiaries: ["Vidarbha & Marathwada Farmers", "Dryland Farmers", "Oilseed Producers", "Cooperative Members"],
+    pesticides: ["Chlorpyrifos for caterpillars", "Mancozeb for collar rot", "Imidacloprid for whitefly"],
+    water: "2–3 critical irrigations: flowering, pod fill, seed development",
+    msp: "₹4,892 / Qtl (2025-26)"
+  },
+  {
+    id: 4, name: "Sugarcane", emoji: "🎋", season: "Perennial (Planted Oct–Nov)", category: "perennial",
+    tagline: "Maharashtra's most profitable cash crop",
+    soil: "Deep, well-drained loamy soil; pH 6.0–7.5",
+    climate: "Tropical; 25–35°C; requires long sunshine hours",
+    duration: "12–18 months",
+    yield: "300–400 Qtl/Acre",
+    fertilizers: ["FYM: 10 tonnes/acre", "Urea: 90 kg/acre in 3 splits", "SSP: 100 kg/acre basal", "MOP: 50 kg/acre", "Zinc: 10 kg/acre"],
+    steps: [
+      "Select disease-free setts (2–3 buds); treat with Carbendazim solution",
+      "Make furrows 75–90 cm apart; apply basal fertiliser in furrows",
+      "Place setts end-to-end in furrows and cover with 5–7 cm soil",
+      "Irrigate immediately after planting; maintain moisture for germination",
+      "Inter-cultivation at 30 DAS; earthing-up at 90 DAS for support",
+      "First Urea top-dress at 45 DAS; second at 90 DAS; third at 120 DAS",
+      "Trash mulching to conserve moisture and suppress weeds",
+      "Detrash at 6 months; harvest at 12–14 months when Brix is 18–22%"
+    ],
+    beneficiaries: ["Western Maharashtra Farmers", "Cooperative Sugar Mill Members", "Kolhapur-Sangli Belt Farmers", "Irrigated Land Holders"],
+    pesticides: ["Chlorpyrifos for early shoot borer", "Profenofos for top borer", "Atrazine for weed control"],
+    water: "15–20 irrigations; critical stages: germination, grand growth, maturity",
+    msp: "₹340 / Qtl (FRP 2025-26)"
+  },
+  {
+    id: 5, name: "Cotton", emoji: "🌿", season: "Kharif (May–Dec)", category: "kharif",
+    tagline: "The white gold of Vidarbha",
+    soil: "Deep black cotton soil (Vertisols); pH 6.5–8.0",
+    climate: "Dry & sunny; 25–35°C; low humidity at boll opening",
+    duration: "150–200 days",
+    yield: "6–10 Qtl/Acre",
+    fertilizers: ["Urea: 45 kg/acre in 3 splits", "SSP: 50 kg/acre basal", "MOP: 25 kg/acre", "Boron: 0.5 kg/acre foliar"],
+    steps: [
+      "Deep ploughing in April; ridges/furrows at 90–120 cm spacing",
+      "Treat Bt cotton seeds with imidacloprid for sucking pests",
+      "Sow seeds 3–4 cm deep; 2–3 seeds per hill; thin to 1 plant",
+      "Irrigation at sowing + 3 subsequent irrigations (avoid waterlogging)",
+      "Spray Ethephon at 100 DAS to promote uniform boll opening",
+      "Apply 2nd Urea dose at square formation; 3rd at peak boll development",
+      "Monitor for pink bollworm; use pheromone traps from 60 DAS",
+      "Pick cotton in 2–3 rounds; store in dry, shaded area"
+    ],
+    beneficiaries: ["Vidarbha Farmers", "Marathwada Farmers", "Black Soil Zone Cultivators", "Textile Sector Suppliers"],
+    pesticides: ["Spinosad for bollworm", "Thiamethoxam for whitefly", "Mancozeb for grey mildew"],
+    water: "8–10 irrigations; critical at squaring, flowering and boll development",
+    msp: "₹7,121 / Qtl (2025-26)"
+  },
+  {
+    id: 6, name: "Tomato", emoji: "🍅", season: "Zaid / Rabi (Sep–Apr)", category: "zaid",
+    tagline: "High-value vegetable with year-round demand",
+    soil: "Well-drained sandy-loam; pH 6.0–7.0",
+    climate: "Moderate; 20–27°C; sensitive to frost and extreme heat",
+    duration: "60–90 days",
+    yield: "80–120 Qtl/Acre",
+    fertilizers: ["Urea: 30 kg/acre in fertigatation", "SSP: 50 kg/acre basal", "Calcium Nitrate: 5 kg/acre foliar", "Potassium Sulphate: 25 kg/acre"],
+    steps: [
+      "Nursery sowing in pro-trays with coco-peat media; 30 days",
+      "Transplant at 4–5 leaf stage; row × plant: 60 × 45 cm",
+      "Install drip irrigation; apply basal fertiliser before transplanting",
+      "Staking with bamboo poles at 25–30 cm height after transplanting",
+      "Fertigation 3×/week with WSF (19:19:19 initially, then 0:0:50 at fruiting)",
+      "Train plants to single/double stem; prune suckers weekly",
+      "Spray Acetamiprid for thrips; Metalaxyl+Mancozeb for early blight",
+      "Harvest at mature-green or turning stage for long-distance transport"
+    ],
+    beneficiaries: ["Greenhouse Farmers", "Peri-urban Vegetable Growers", "Progressive Small Farmers", "FPO Members"],
+    pesticides: ["Acetamiprid for thrips/whitefly", "Metalaxyl for late blight", "Chlorfenapyr for mites"],
+    water: "Drip irrigation: 2–3 L/plant/day; critical at flowering & fruit set",
+    msp: "Market-linked (no MSP); avg ₹800–1800/Qtl"
+  },
+  {
+    id: 7, name: "Onion", emoji: "🧅", season: "Rabi (Oct–Mar)", category: "rabi",
+    tagline: "Maharashtra's most traded vegetable crop",
+    soil: "Well-drained sandy-loam to loam; pH 6.0–7.5",
+    climate: "Cool dry weather for bulb development; 20–25°C",
+    duration: "120–150 days",
+    yield: "50–80 Qtl/Acre",
+    fertilizers: ["Urea: 40 kg/acre", "SSP: 60 kg/acre basal", "MOP: 30 kg/acre at bulbing", "Calcium Boron: 200g/acre foliar"],
+    steps: [
+      "Prepare fine seedbed; sow seeds in nursery in September",
+      "Transplant 6–7 week old seedlings at 15×10 cm spacing",
+      "Apply half Urea + full SSP + half MOP at transplanting",
+      "First irrigation: immediately post-transplanting; then every 8–10 days",
+      "Apply rest of Urea + MOP at 30 and 60 DAS",
+      "Spray Mancozeb at 15-day intervals for purple blotch control",
+      "Stop irrigation 15 days before harvest for proper curing",
+      "Harvest when 50% tops fall; cure in shade for 10–15 days before storage"
+    ],
+    beneficiaries: ["Nashik & Pune Farmers", "Small Holder Farmers", "Export-Oriented Farmers", "Cold Storage Operators"],
+    pesticides: ["Mancozeb + Metalaxyl for purple blotch", "Spinosad for thrips", "Copper oxychloride for downy mildew"],
+    water: "8–10 irrigations; stop 2 weeks before harvest",
+    msp: "Market-linked; avg ₹600–1,500/Qtl"
+  },
+  {
+    id: 8, name: "Maize", emoji: "🌽", season: "Kharif (Jun–Sep)", category: "kharif",
+    tagline: "Versatile crop for food, feed and industrial use",
+    soil: "Well-drained loamy; pH 5.8–7.0",
+    climate: "Warm weather; 21–27°C; 600–900mm rainfall",
+    duration: "80–100 days",
+    yield: "15–25 Qtl/Acre",
+    fertilizers: ["Urea: 65 kg/acre in 3 splits", "SSP: 40 kg/acre basal", "MOP: 20 kg/acre", "Zinc Sulphate: 10 kg/acre"],
+    steps: [
+      "Plough 2–3 times; form ridges and furrows at 60–75 cm spacing",
+      "Seed rate: 8–10 kg/acre; sow 2–3 seeds per hill at 20–25 cm",
+      "Thin to 1 plant per hill at 15 DAS",
+      "Weed control: Atrazine 1 kg/acre pre-emergence or manual weeding at 20 DAS",
+      "Top-dress Urea at 30 DAS (knee-high) and tasselling stage",
+      "Detasselling in hybrid seed production; not required for grain",
+      "Monitor for Fall Armyworm; spray Spinetoram at 0.5ml/L if found",
+      "Harvest when husks are dry and brown; moisture below 20%"
+    ],
+    beneficiaries: ["Poultry Feed Producers", "Starch Industry", "Small Dairy Farmers", "Tribal Farmers"],
+    pesticides: ["Spinetoram for FAW", "Carbendazim for stalk rot", "Chlorpyrifos for stem borer"],
+    water: "5–6 irrigations; critical at knee-high, tasselling, and grain fill",
+    msp: "₹2,090 / Qtl (2025-26)"
+  },
+  {
+    id: 9, name: "Chickpea (Gram)", emoji: "🫘", season: "Rabi (Oct–Feb)", category: "rabi",
+    tagline: "Nitrogen-fixing pulse crop for soil health",
+    soil: "Sandy-loam to loam; pH 6.0–7.5; low moisture-retentive",
+    climate: "Cool dry weather; 15–25°C; rain-fed or limited irrigation",
+    duration: "90–120 days",
+    yield: "5–10 Qtl/Acre",
+    fertilizers: ["Rhizobium inoculant (no Urea)", "SSP: 25 kg/acre basal", "Zinc Sulphate: 5 kg/acre", "Sulphur: 8 kg/acre"],
+    steps: [
+      "Deep ploughing in October; ridge-furrow sowing for drainage",
+      "Treat seeds with Rhizobium + Thiram + Carbendazim",
+      "Sow at 2–3 cm depth; row spacing 30–45 cm; seed rate 25–30 kg/acre",
+      "Pre-emergence weed control with Pendimethalin 1L/acre",
+      "One irrigation at branching/flowering if rainfall is insufficient",
+      "Spray Indoxacarb for pod borer at first appearance",
+      "Foliar spray of 2% DAP solution at flowering for better pod set",
+      "Harvest when lower pods dry out; thresh gently to avoid seed damage"
+    ],
+    beneficiaries: ["Dryland Farmers", "Madhya Pradesh & Maharashtra Farmers", "Mixed Farming Systems", "Organic Farmers"],
+    pesticides: ["Indoxacarb for pod borer", "Trichoderma for wilt", "Propiconazole for blight"],
+    water: "1–2 irrigations only; excess water causes wilt",
+    msp: "₹5,440 / Qtl (2025-26)"
+  },
+  {
+    id: 10, name: "Banana", emoji: "🍌", season: "Perennial (Year-round)", category: "perennial",
+    tagline: "High-value tropical crop with excellent returns",
+    soil: "Well-drained loamy; pH 6.0–7.5; high organic matter",
+    climate: "Tropical/sub-tropical; 26–30°C; 1200–2200mm water",
+    duration: "11–15 months",
+    yield: "200–300 Qtl/Acre",
+    fertilizers: ["Urea: 75 kg/plant/year split monthly", "SSP: 100 g/plant basal", "MOP: 350 g/plant/year", "FYM: 10 kg/plant/year"],
+    steps: [
+      "Select disease-free TC (tissue culture) plants from certified nursery",
+      "Plant at 1.8×1.5 m spacing; dig 50×50×50 cm pits",
+      "Fill pit with FYM + topsoil + 100g SSP mix",
+      "Drip irrigation from day 1; fertigation via drip from 30 DAP",
+      "Earthing-up at 4 and 8 months for support; prop plants at bunch stage",
+      "Remove male bud at 7–8 days after last hand to improve bunch weight",
+      "Cover bunch with perforated plastic sleeve for protection from thrips",
+      "Harvest when angular fingers become rounded; 40–45°C days after shooting"
+    ],
+    beneficiaries: ["Jalgaon & Nandurbar Farmers", "Irrigated Farm Owners", "Drip-Irrigation Users", "Export Market Suppliers"],
+    pesticides: ["Mancozeb for Sigatoka", "Carbendazim for crown rot", "Chlorpyrifos for corm weevil"],
+    water: "Drip: 50–80 L/plant/day; critical throughout growth",
+    msp: "Market-linked; avg ₹1,200–2,500/Qtl"
+  },
+  {
+    id: 11, name: "Mustard", emoji: "🌼", season: "Rabi (Oct–Feb)", category: "rabi",
+    tagline: "India's top oilseed crop in Rabi season",
+    soil: "Sandy-loam to loam; pH 6.0–7.5",
+    climate: "Cool dry conditions; 10–25°C; tolerates frost",
+    duration: "90–120 days",
+    yield: "6–12 Qtl/Acre",
+    fertilizers: ["Urea: 35 kg/acre in 2 splits", "SSP: 30 kg/acre basal", "Sulphur: 15 kg/acre", "Boron: 200g/acre"],
+    steps: [
+      "Field preparation after Kharif harvest; 2 ploughings",
+      "Broadcast or line sow at 1–1.5 cm depth; seed rate 1.5–2 kg/acre",
+      "First irrigation at 25–30 DAS (branching stage)",
+      "Apply Urea top-dress at branching and flowering",
+      "Spray Dimethyl 30EC for aphid control if needed",
+      "Spray 0.5% Borax solution at flowering for seed set",
+      "Harvest when 75% pods turn yellow-brown",
+      "Thresh on tarpaulin; winnow to clean seeds"
+    ],
+    beneficiaries: ["Rajasthan & MP Farmers", "Maharashtra Rabi Growers", "Edible Oil Producers", "Intercropping Farmers"],
+    pesticides: ["Dimethyl for aphids", "Chlorpyrifos for painted bug", "Carbendazim for white rust"],
+    water: "2–3 irrigations; critical at branching and pod formation",
+    msp: "₹5,950 / Qtl (2025-26)"
+  },
+  {
+    id: 12, name: "Grape", emoji: "🍇", season: "Perennial (Pruning: Oct/Jan)", category: "perennial",
+    tagline: "Nashik's pride — India's wine and export grape hub",
+    soil: "Sandy-loam to light loam; pH 6.5–7.5; good drainage",
+    climate: "Dry sunny weather; 15–38°C; low humidity during harvest",
+    duration: "Perennial; 2 crops/year",
+    yield: "60–100 Qtl/Acre",
+    fertilizers: ["Urea: 50 kg/acre per pruning cycle", "SSP: 60 kg/acre basal", "Potassium Nitrate foliar at fruit development", "Micronutrient mix spray every 3 weeks"],
+    steps: [
+      "Plant rooted cuttings/grafts at 3×2 m spacing on flat or trained trellis",
+      "Train vines to bower/telephone/kniffin system in first 2 years",
+      "Back pruning in October (Kanda chhataai) for main crop",
+      "Apply pre-bloom spray with GA₃ for berry sizing (for Thompson Seedless)",
+      "Thin bunches to 1–2 per shoot; berry thinning at pea-size stage",
+      "Dip bunches in Ethephon solution for colour development (coloured varieties)",
+      "Spray Mancozeb every 7–10 days for downy mildew in humid weather",
+      "Harvest at 16–22% Brix; pack in ventilated boxes with bottom cushioning"
+    ],
+    beneficiaries: ["Nashik & Sangli Farmers", "Wine Grape Producers", "Export-Oriented Growers", "FPO & Cooperative Members"],
+    pesticides: ["Metalaxyl+Mancozeb for downy mildew", "Myclobutanil for powdery mildew", "Spirotetramat for mealybug"],
+    water: "Drip irrigation: 60–80 L/vine/day; regulated deficit at berry colour",
+    msp: "Market-linked; export quality ₹30–80/kg"
+  }
+];
+
+// ===== MARKET DATA =====
+const marketData = [
+  { crop: "Wheat", mandi: "Pune APMC", min: 2100, max: 2250, modal: 2180, trend: "up", filter: "wheat" },
+  { crop: "Wheat", mandi: "Nashik Mandi", min: 2050, max: 2200, modal: 2150, trend: "stable", filter: "wheat" },
+  { crop: "Rice", mandi: "Kolhapur APMC", min: 1900, max: 2300, modal: 2100, trend: "up", filter: "rice" },
+  { crop: "Soybean", mandi: "Latur Mandi", min: 4700, max: 5100, modal: 4900, trend: "up", filter: "soybean" },
+  { crop: "Soybean", mandi: "Aurangabad APMC", min: 4650, max: 5000, modal: 4850, trend: "stable", filter: "soybean" },
+  { crop: "Cotton", mandi: "Amravati Mandi", min: 6800, max: 7200, modal: 7050, trend: "up", filter: "cotton" },
+  { crop: "Onion", mandi: "Lasalgaon (Nashik)", min: 700, max: 1400, modal: 1050, trend: "down", filter: "onion" },
+  { crop: "Onion", mandi: "Pimpalgaon", min: 650, max: 1300, modal: 980, trend: "down", filter: "onion" },
+  { crop: "Tomato", mandi: "Narayangaon", min: 600, max: 1800, modal: 1100, trend: "up", filter: "tomato" },
+];
+
+const buyers = [
+  { name: "Raj Agro Traders", crop: "Wheat, Soybean", price: "₹2,200/Qtl", location: "Pune" },
+  { name: "Nashik Exports Pvt Ltd", crop: "Onion, Grape", price: "₹1,100/Qtl", location: "Nashik" },
+  { name: "Green Valley FPO", crop: "Tomato, Vegetables", price: "₹900–1,500/Qtl", location: "Aurangabad" },
+  { name: "Cotton King Ltd", crop: "Cotton", price: "₹7,100/Qtl", location: "Amravati" },
+  { name: "Sahyadri Farms", crop: "Grapes, Pomegranate", price: "₹35/kg+", location: "Nashik" },
+  { name: "Mahasugar Co-op", crop: "Sugarcane", price: "₹342/Qtl", location: "Kolhapur" },
+];
+
+// ===== CONSULTATION Q&A =====
+const questions = [
+  { name: "Suresh Patil", crop: "Wheat", district: "Pune", text: "My wheat leaves are turning yellow from tips. What could be the problem?", answer: "Yellow tips usually indicate Nitrogen deficiency or Yellow Rust disease. Apply a top-dress of Urea (25 kg/acre) and if lesions are present, spray Propiconazole 0.1%. Check irrigation frequency as over-watering also causes yellowing.", status: "answered" },
+  { name: "Ramabai Jadhav", crop: "Onion", district: "Nashik", text: "Purple spots are appearing on my onion leaves. How should I treat this?", answer: "This is Purple Blotch, caused by Alternaria porri. Spray Mancozeb 75WP at 2.5 g/L water every 10 days. Remove and destroy severely infected leaves. Avoid overhead irrigation.", status: "answered" },
+  { name: "Vitthal Deshmukh", crop: "Soybean", district: "Latur", text: "Caterpillars are eating soybean pods. How to control them effectively?", answer: "These are likely Bihar hairy caterpillars or tobacco caterpillar. Spray Chlorpyrifos 20EC at 2 ml/L or Indoxacarb 15.8% at 1ml/L. Do this in the evening for best results.", status: "answered" },
+  { name: "Meena Khandagale", crop: "Cotton", district: "Amravati", text: "When is the right time to harvest cotton for better price?", status: "pending" },
+  { name: "Balasaheb More", crop: "Tomato", district: "Kolhapur", text: "How many drip irrigations per day for tomato in hot summer?", status: "pending" },
+];
+
+// ===== MODAL OPEN/CLOSE =====
+function openModal(id) {
+  document.getElementById(id).classList.add('active');
+  document.body.style.overflow = 'hidden';
+  if (id === 'crop-modal') renderCropGrid();
+  if (id === 'market-modal') renderMarket('all');
+  if (id === 'consult-modal') renderQuestions();
+}
+function closeModal(id) {
+  document.getElementById(id).classList.remove('active');
+  document.body.style.overflow = '';
+}
+document.querySelectorAll('.modal-overlay').forEach(m => {
+  m.addEventListener('click', e => { if (e.target === m) closeModal(m.id); });
+});
+document.addEventListener('keydown', e => {
+  if (e.key === 'Escape') document.querySelectorAll('.modal-overlay.active').forEach(m => closeModal(m.id));
+});
+
+// ===== CROP GRID =====
+let activeFilter = 'all';
+function renderCropGrid(searchVal = '') {
+  const grid = document.getElementById('crop-grid');
+  const noMsg = document.getElementById('no-crops');
+  const filtered = crops.filter(c => {
+    const matchSearch = c.name.toLowerCase().includes(searchVal.toLowerCase());
+    const matchFilter = activeFilter === 'all' || c.category === activeFilter;
+    return matchSearch && matchFilter;
+  });
+  grid.innerHTML = filtered.map(c => `
+    <div class="crop-card" onclick="showCropDetail(${c.id})">
+      <div class="crop-emoji">${c.emoji}</div>
+      <div class="crop-name">${c.name}</div>
+      <div class="crop-season">${c.season.split('(')[0].trim()}</div>
+      <div class="crop-badge badge-${c.category}">${c.category.charAt(0).toUpperCase()+c.category.slice(1)}</div>
+    </div>
+  `).join('');
+  noMsg.style.display = filtered.length === 0 ? 'block' : 'none';
+}
+function filterCrops() {
+  renderCropGrid(document.getElementById('crop-search').value);
+}
+function setFilter(f) {
+  activeFilter = f;
+  document.querySelectorAll('.filter-tab').forEach(t => t.classList.remove('active'));
+  event.target && event.target.classList && event.target.classList.add('active');
+  // When called programmatically from hero button, set tab too
+  document.querySelectorAll('.filter-tab').forEach(t => {
+    if ((f==='all' && t.textContent.includes('All')) || t.textContent.toLowerCase().includes(f)) t.classList.add('active');
+  });
+  renderCropGrid(document.getElementById('crop-search')?.value || '');
+}
+
+function showCropDetail(id) {
+  const crop = crops.find(c => c.id === id);
+  if (!crop) return;
+  document.getElementById('crop-list-view').classList.add('hidden');
+  const dv = document.getElementById('crop-detail-view');
+  dv.classList.add('active');
+  document.getElementById('crop-detail-content').innerHTML = `
+    <div class="crop-detail-header">
+      <div class="crop-detail-emoji">${crop.emoji}</div>
+      <div class="crop-detail-info">
+        <h2>${crop.name}</h2>
+        <p>${crop.tagline}</p>
+        <div class="crop-meta-pills">
+          <span class="meta-pill">📅 ${crop.season}</span>
+          <span class="meta-pill">⏱ ${crop.duration}</span>
+          <span class="meta-pill">📦 Yield: ${crop.yield}</span>
+          <span class="meta-pill">💰 MSP: ${crop.msp}</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="detail-sections">
+      <div class="detail-box">
+        <h4>🌍 Soil & Climate</h4>
+        <p><b>Soil:</b> ${crop.soil}</p>
+        <p style="margin-top:8px"><b>Climate:</b> ${crop.climate}</p>
+      </div>
+      <div class="detail-box gold-border">
+        <h4>💧 Water Requirements</h4>
+        <p>${crop.water}</p>
+      </div>
+      <div class="detail-box blue-border">
+        <h4>🧪 Fertilizer Schedule</h4>
+        <ul>${crop.fertilizers.map(f=>`<li>${f}</li>`).join('')}</ul>
+      </div>
+      <div class="detail-box red-border">
+        <h4>🐛 Pest & Disease Control</h4>
+        <ul>${crop.pesticides.map(p=>`<li>${p}</li>`).join('')}</ul>
+      </div>
+    </div>
+
+    <div class="detail-box" style="margin-top:20px; border-left-color: var(--green-light);">
+      <h4>📋 Step-by-Step Procedure</h4>
+      <ol class="steps-list">
+        ${crop.steps.map((s,i)=>`<li><div class="step-num">${i+1}</div><span>${s}</span></li>`).join('')}
+      </ol>
+    </div>
+
+    <div class="detail-box" style="margin-top:20px; border-left-color: var(--gold);">
+      <h4>👥 Who Benefits From Growing ${crop.name}?</h4>
+      <div class="beneficiary-chips">
+        ${crop.beneficiaries.map(b=>`<span class="chip">${b}</span>`).join('')}
+      </div>
+    </div>
+  `;
+}
+function showCropList() {
+  document.getElementById('crop-list-view').classList.remove('hidden');
+  document.getElementById('crop-detail-view').classList.remove('active');
+}
+
+// ===== MARKET TABLE =====
+function renderMarket(filter) {
+  const data = filter === 'all' ? marketData : marketData.filter(r => r.filter === filter);
+  document.getElementById('market-tbody').innerHTML = data.map(r => `
+    <tr>
+      <td><b>${r.crop}</b></td>
+      <td>${r.mandi}</td>
+      <td>₹${r.min.toLocaleString()}</td>
+      <td>₹${r.max.toLocaleString()}</td>
+      <td class="${r.trend==='up'?'price-up':r.trend==='down'?'price-down':'price-stable'}">₹${r.modal.toLocaleString()}</td>
+      <td>${r.trend==='up'?'📈 Rising':r.trend==='down'?'📉 Falling':'➡️ Stable'}</td>
+    </tr>
+  `).join('');
+  document.getElementById('buyer-cards').innerHTML = buyers.map(b => `
+    <div class="buyer-card">
+      <div class="buyer-name">${b.name}</div>
+      <div class="buyer-crop">${b.crop}</div>
+      <div class="buyer-price">${b.price}</div>
+      <div class="buyer-location">📍 ${b.location}</div>
+      <button class="contact-btn-sm" onclick="alert('Contact request sent to ${b.name}! They will reach you within 24 hours.')">Contact Buyer</button>
+    </div>
+  `).join('');
+}
+function filterMarket(val) { renderMarket(val); }
+
+// ===== CONSULTATION =====
+function renderQuestions() {
+  document.getElementById('question-list').innerHTML = questions.map(q => `
+    <div class="q-card ${q.status}">
+      <div class="q-meta">👤 ${q.name} · 🌾 ${q.crop} · 📍 ${q.district}</div>
+      <div class="q-text">${q.text}</div>
+      ${q.answer ? `<div class="q-answer">💡 <b>Expert Answer:</b> ${q.answer}</div>` : ''}
+      <span class="q-status ${q.status==='answered'?'status-answered':q.status==='pending'?'status-pending':'status-new'}">${q.status.toUpperCase()}</span>
+    </div>
+  `).join('');
+}
+
+function submitQuestion() {
+  const name = document.getElementById('q-name').value.trim();
+  const crop = document.getElementById('q-crop').value;
+  const text = document.getElementById('q-text').value.trim();
+  const district = document.getElementById('q-district').value;
+  if (!name || !crop || !text) { alert('Please fill in all required fields.'); return; }
+  questions.unshift({ name, crop, district: district||'Unknown', text, status: 'new' });
+  renderQuestions();
+  document.getElementById('q-name').value = '';
+  document.getElementById('q-text').value = '';
+  document.getElementById('q-crop').value = '';
+  document.getElementById('q-district').value = '';
+  showToast('q-toast');
+}
+
+function showToast(id) {
+  const t = document.getElementById(id);
+  t.classList.add('show');
+  setTimeout(() => t.classList.remove('show'), 4000);
+}
+
+// ===== SCROLL REVEAL =====
+const observer = new IntersectionObserver(entries => {
+  entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
+}, { threshold: 0.1 });
+document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+
+// ===== HEADER SCROLL EFFECT =====
+window.addEventListener('scroll', () => {
+  const h = document.getElementById('header');
+  if (window.scrollY > 50) h.style.boxShadow = '0 4px 20px rgba(0,0,0,0.3)';
+  else h.style.boxShadow = 'none';
+});
+
+// ===== HERO BUTTON SCROLL =====
+document.querySelector('.hero-btns .btn-outline') && (() => {})();
+
+</script>
+</body>
+</html>

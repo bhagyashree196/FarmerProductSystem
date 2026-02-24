@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Organic Fertilizer — Farmers Hub</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=DM+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{--green-dark:#1a3a1f;--green-accent:#4a8c3f;--gold:#c8972a;--cream:#f7f3ec;--cream-dark:#ede8df;--text-dark:#1c1c1c;--text-mid:#444;--white:#fff;}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+body{font-family:'DM Sans',sans-serif;background:var(--cream);}
+header{background:var(--green-dark);padding:0 5vw;height:70px;display:flex;align-items:center;justify-content:space-between;}
+.logo-text{font-family:'Playfair Display',serif;color:white;font-size:22px;}
+.logo-text span{color:#e8b84b;}
+nav a{color:rgba(255,255,255,0.8);text-decoration:none;margin-left:24px;font-size:14px;}
+.product-page{max-width:900px;margin:0 auto;padding:50px 5vw;}
+.product-layout{display:grid;grid-template-columns:1fr 1.2fr;gap:40px;align-items:start;}
+@media(max-width:640px){.product-layout{grid-template-columns:1fr;}}
+.product-image{border-radius:20px;overflow:hidden;box-shadow:0 8px 30px rgba(0,0,0,0.12);}
+.product-image img{width:100%;display:block;}
+.product-tag{display:inline-block;background:rgba(200,151,42,0.1);color:var(--gold);padding:4px 12px;border-radius:10px;font-size:12px;font-weight:600;margin-bottom:12px;}
+.product-title{font-family:'Playfair Display',serif;font-size:34px;color:var(--green-dark);margin-bottom:10px;}
+.product-desc{font-size:15px;color:var(--text-mid);line-height:1.7;margin-bottom:20px;}
+.product-price-big{font-size:32px;font-weight:700;color:var(--green-accent);margin-bottom:20px;}
+.info-list{list-style:none;padding:0;margin-bottom:20px;}
+.info-list li{display:flex;gap:10px;padding:10px 0;border-bottom:1px solid var(--cream-dark);font-size:14px;color:var(--text-mid);}
+.info-list li strong{min-width:140px;color:var(--text-dark);}
+.benefits-box{background:linear-gradient(135deg,#f0f7ee,#e8f0e4);border-radius:14px;padding:20px;margin-bottom:24px;}
+.benefits-box h4{font-family:'Playfair Display',serif;font-size:16px;color:var(--green-dark);margin-bottom:12px;}
+.benefits-box ul{padding-left:18px;}
+.benefits-box li{font-size:14px;color:var(--text-mid);line-height:1.8;}
+.buy-btn{display:inline-block;padding:14px 32px;background:var(--green-accent);color:white;border-radius:10px;font-size:16px;font-weight:600;text-decoration:none;transition:background 0.2s;border:none;cursor:pointer;font-family:'DM Sans',sans-serif;}
+.buy-btn:hover{background:var(--green-dark);}
+.back-btn{display:inline-flex;align-items:center;gap:6px;padding:8px 16px;background:var(--cream-dark);border:none;border-radius:8px;font-size:14px;font-weight:500;cursor:pointer;font-family:'DM Sans',sans-serif;color:var(--text-dark);text-decoration:none;margin-bottom:28px;}
+.back-btn:hover{background:#ddd;}
+footer{background:#0f2012;padding:24px 5vw;text-align:center;}
+footer p{color:rgba(255,255,255,0.4);font-size:13px;}
+</style>
+</head>
+<body>
+<header>
+  <div class="logo-text">🌾 Farmers <span>Hub</span></div>
+  <nav><a href="index.html">Home</a><a href="products.html">Products</a></nav>
+</header>
+<div class="product-page">
+  <a href="products.html" class="back-btn">← Back to Products</a>
+  <div class="product-layout">
+    <div class="product-image">
+      <img src="https://images.unsplash.com/photo-1625246333195-78d9c38ad449?auto=format&fit=crop&w=800&q=80" alt="Organic Fertilizer">
+    </div>
+    <div>
+      <div class="product-tag">🌿 Fertilizer — Organic</div>
+      <h1 class="product-title">Premium Organic Fertilizer</h1>
+      <p class="product-desc">100% natural, vermi-compost enriched organic fertilizer that rebuilds soil life, improves water retention, and delivers sustained nutrition to your crops throughout the season.</p>
+      <div class="product-price-big">₹350 <span style="font-size:18px;color:var(--text-mid);font-weight:400;">/ 25kg Bag</span></div>
+      <ul class="info-list">
+        <li><strong>Product Type</strong>Vermi-compost + Organic Mix</li>
+        <li><strong>N:P:K</strong>2:1.5:1.5% (organic source)</li>
+        <li><strong>Suitable Crops</strong>Wheat, Rice, Vegetables, Fruits, Pulses</li>
+        <li><strong>Dosage</strong>50 kg per acre (2 bags)</li>
+        <li><strong>Application</strong>Basal application at sowing/planting</li>
+        <li><strong>Certification</strong>NPOP Certified Organic Input</li>
+        <li><strong>Shelf Life</strong>24 months from manufacture</li>
+      </ul>
+      <div class="benefits-box">
+        <h4>✅ Key Benefits</h4>
+        <ul>
+          <li>Enriches soil microbiome and improves soil structure</li>
+          <li>Reduces need for chemical fertilizers by 30–40%</li>
+          <li>Improves water-holding capacity in sandy soils</li>
+          <li>Safe for environment, beneficial insects, and groundwater</li>
+          <li>Qualifies for organic certification premium pricing</li>
+        </ul>
+      </div>
+      <button class="buy-btn" onclick="alert('Order placed! Our team will contact you shortly.')">🛒 Buy Now</button>
+    </div>
+  </div>
+</div>
+<footer><p>© 2026 Farmers Hub | Maharashtra, India</p></footer>
+</body>
+</html>

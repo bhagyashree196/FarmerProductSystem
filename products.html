@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Products — Farmers Hub</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=DM+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root {
+  --green-dark:#1a3a1f; --green-mid:#2d5a27; --green-accent:#4a8c3f;
+  --green-light:#7ab648; --gold:#c8972a; --cream:#f7f3ec;
+  --cream-dark:#ede8df; --text-dark:#1c1c1c; --text-mid:#444; --white:#fff;
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+body{font-family:'DM Sans',sans-serif;background:var(--cream);color:var(--text-dark);}
+header{background:var(--green-dark);padding:0 5vw;height:70px;display:flex;align-items:center;justify-content:space-between;}
+.logo-text{font-family:'Playfair Display',serif;color:white;font-size:22px;}
+.logo-text span{color:#e8b84b;}
+nav a{color:rgba(255,255,255,0.8);text-decoration:none;margin-left:24px;font-size:14px;font-weight:500;}
+nav a:hover{color:white;}
+.page-hero{background:linear-gradient(135deg,var(--green-dark),#3a6b32);padding:60px 5vw;text-align:center;}
+.page-hero h1{font-family:'Playfair Display',serif;color:white;font-size:42px;margin-bottom:10px;}
+.page-hero p{color:rgba(255,255,255,0.65);font-size:16px;}
+.products-section{padding:60px 5vw;}
+.section-header{text-align:center;margin-bottom:40px;}
+.section-header h2{font-family:'Playfair Display',serif;font-size:32px;color:var(--green-dark);}
+.products-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:24px;}
+.product-card{background:white;border-radius:18px;overflow:hidden;box-shadow:0 4px 20px rgba(0,0,0,0.07);transition:all 0.3s;text-decoration:none;color:inherit;display:block;}
+.product-card:hover{transform:translateY(-8px);box-shadow:0 16px 40px rgba(0,0,0,0.12);}
+.product-card img{width:100%;height:200px;object-fit:cover;}
+.product-card-body{padding:20px;}
+.product-card h3{font-family:'Playfair Display',serif;font-size:20px;color:var(--green-dark);margin-bottom:6px;}
+.product-card p{font-size:14px;color:var(--text-mid);line-height:1.6;margin-bottom:16px;}
+.product-price{font-size:18px;font-weight:700;color:var(--green-accent);}
+.product-tag{display:inline-block;background:rgba(74,140,63,0.1);color:var(--green-accent);padding:3px 10px;border-radius:10px;font-size:12px;font-weight:600;margin-bottom:8px;}
+.view-btn{display:inline-block;margin-top:12px;padding:9px 20px;background:var(--green-accent);color:white;border-radius:8px;font-size:14px;font-weight:600;text-decoration:none;}
+footer{background:#0f2012;padding:24px 5vw;display:flex;justify-content:space-between;align-items:center;}
+footer p{color:rgba(255,255,255,0.4);font-size:13px;}
+.back-home{color:rgba(255,255,255,0.6);text-decoration:none;font-size:13px;}
+.back-home:hover{color:white;}
+</style>
+</head>
+<body>
+<header>
+  <div class="logo-text">🌾 Farmers <span>Hub</span></div>
+  <nav>
+    <a href="index.html">Home</a>
+    <a href="#">Products</a>
+    <a href="index.html#contact">Contact</a>
+  </nav>
+</header>
+
+<div class="page-hero">
+  <h1>Farming Products</h1>
+  <p>Quality seeds, fertilizers, and more for better harvests</p>
+</div>
+
+<section class="products-section">
+  <div class="section-header">
+    <h2>Available Products</h2>
+  </div>
+  <div class="products-grid">
+    <a href="product-seed.html" class="product-card">
+      <img src="https://images.unsplash.com/photo-1586773860418-d37222d8fce3?auto=format&fit=crop&w=600&q=80">
+      <div class="product-card-body">
+        <div class="product-tag">Seeds</div>
+        <h3>Hybrid Wheat Seeds</h3>
+        <p>High-yield Rabi season wheat seeds. Disease resistant and suitable for Maharashtra's soil.</p>
+        <div class="product-price">₹120 / kg</div>
+        <div class="view-btn">View Details →</div>
+      </div>
+    </a>
+    <a href="product-fertilizer.html" class="product-card">
+      <img src="https://images.unsplash.com/photo-1625246333195-78d9c38ad449?auto=format&fit=crop&w=600&q=80">
+      <div class="product-card-body">
+        <div class="product-tag">Fertilizer</div>
+        <h3>Organic Fertilizer</h3>
+        <p>100% organic soil enricher. Improves soil health, increases yield for all major crops.</p>
+        <div class="product-price">₹350 / Bag</div>
+        <div class="view-btn">View Details →</div>
+      </div>
+    </a>
+    <a href="#" class="product-card">
+      <img src="https://images.unsplash.com/photo-1601597111158-2fceff292cdc?auto=format&fit=crop&w=600&q=80">
+      <div class="product-card-body">
+        <div class="product-tag">Pesticide</div>
+        <h3>Bio Pesticide Spray</h3>
+        <p>Eco-friendly pest control solution. Safe for crops, soil, and beneficial insects.</p>
+        <div class="product-price">₹250 / Litre</div>
+        <div class="view-btn">View Details →</div>
+      </div>
+    </a>
+  </div>
+</section>
+
+<footer>
+  <p>© 2026 Farmers Hub</p>
+  <a class="back-home" href="index.html">← Back to Home</a>
+</footer>
+</body>
+</html>
