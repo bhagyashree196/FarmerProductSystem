@@ -1,192 +1,156 @@
 // ============================================================
-//  app.js  —  Farmers Hub  |  All UI Logic & Event Handling
-//  NOTE: This file depends on db.js being loaded first.
-//        crops, marketData, buyers, questions come from db.js
+//  app.js  —  Farmers Hub  |  All UI Logic
+//  Depends on db.js being loaded first.
 // ============================================================
 
-
-// ===================================================================
-//  MODAL OPEN / CLOSE
-// ===================================================================
-function openModal(id) {
-  document.getElementById(id).classList.add('active');
+// ── OVERLAY OPEN / CLOSE ─────────────────────────────────────
+function openOverlay(id) {
+  document.getElementById(id).classList.add('open');
   document.body.style.overflow = 'hidden';
-  if (id === 'crop-modal')   renderCropGrid();
-  if (id === 'market-modal') renderMarket('all');
-  if (id === 'consult-modal') renderQuestions();
+  if (id === 'crop-overlay')    renderCropGrid();
+  if (id === 'market-overlay')  renderMarket('all');
+  if (id === 'consult-overlay') renderQuestions();
 }
 
-function closeModal(id) {
-  document.getElementById(id).classList.remove('active');
+function closeOverlay(id) {
+  document.getElementById(id).classList.remove('open');
   document.body.style.overflow = '';
 }
 
-// Close modal when clicking the dark backdrop
-document.querySelectorAll('.modal-overlay').forEach(m => {
-  m.addEventListener('click', e => {
-    if (e.target === m) closeModal(m.id);
-  });
+// Close on backdrop click
+document.querySelectorAll('.overlay').forEach(o => {
+  o.addEventListener('click', e => { if (e.target === o) closeOverlay(o.id); });
 });
 
-// Close modal on Escape key
+// Close on Escape
 document.addEventListener('keydown', e => {
-  if (e.key === 'Escape') {
-    document.querySelectorAll('.modal-overlay.active').forEach(m => closeModal(m.id));
-  }
+  if (e.key === 'Escape')
+    document.querySelectorAll('.overlay.open').forEach(o => closeOverlay(o.id));
 });
 
-
-// ===================================================================
-//  CROP GUIDE — LIST VIEW
-// ===================================================================
+// ── CROP GRID ─────────────────────────────────────────────────
 let activeFilter = 'all';
 
 function renderCropGrid(searchVal = '') {
-  const grid  = document.getElementById('crop-grid');
-  const noMsg = document.getElementById('no-crops');
+  const grid = document.getElementById('crop-grid');
+  const none = document.getElementById('no-results');
 
-  const filtered = crops.filter(c => {
-    const matchSearch = c.name.toLowerCase().includes(searchVal.toLowerCase());
+  const list = crops.filter(c => {
+    const matchText   = c.name.toLowerCase().includes(searchVal.toLowerCase());
     const matchFilter = activeFilter === 'all' || c.category === activeFilter;
-    return matchSearch && matchFilter;
+    return matchText && matchFilter;
   });
 
-  grid.innerHTML = filtered.map(c => `
-    <div class="crop-card" onclick="showCropDetail(${c.id})">
-      <div class="crop-emoji">${c.emoji}</div>
-      <div class="crop-name">${c.name}</div>
-      <div class="crop-season">${c.season.split('(')[0].trim()}</div>
-      <div class="crop-badge badge-${c.category}">
-        ${c.category.charAt(0).toUpperCase() + c.category.slice(1)}
-      </div>
+  grid.innerHTML = list.map(c => `
+    <div class="crop-tile" onclick="showCropDetail(${c.id})">
+      <div class="tile-emoji">${c.emoji}</div>
+      <div class="tile-name">${c.name}</div>
+      <div class="tile-cat c-${c.category}">${c.category.charAt(0).toUpperCase() + c.category.slice(1)}</div>
     </div>
   `).join('');
 
-  noMsg.style.display = filtered.length === 0 ? 'block' : 'none';
+  none.style.display = list.length === 0 ? 'block' : 'none';
 }
 
 function filterCrops() {
   renderCropGrid(document.getElementById('crop-search').value);
 }
 
-function setFilter(f) {
+function setFilter(f, btn) {
   activeFilter = f;
-
-  // Update active tab highlight
-  document.querySelectorAll('.filter-tab').forEach(t => {
-    t.classList.remove('active');
-    if (
-      (f === 'all' && t.textContent.includes('All')) ||
-      t.textContent.toLowerCase().includes(f)
-    ) {
-      t.classList.add('active');
-    }
-  });
-
+  document.querySelectorAll('.ftab').forEach(t => t.classList.remove('on'));
+  if (btn) btn.classList.add('on');
   renderCropGrid(document.getElementById('crop-search')?.value || '');
 }
 
-
-// ===================================================================
-//  CROP GUIDE — DETAIL VIEW
-// ===================================================================
+// ── CROP DETAIL ───────────────────────────────────────────────
 function showCropDetail(id) {
-  const crop = crops.find(c => c.id === id);
-  if (!crop) return;
+  const c = crops.find(x => x.id === id);
+  if (!c) return;
 
-  document.getElementById('crop-list-view').classList.add('hidden');
-  document.getElementById('crop-detail-view').classList.add('active');
+  document.getElementById('crop-list').classList.add('hide');
+  document.getElementById('crop-detail').classList.add('show');
 
-  document.getElementById('crop-detail-content').innerHTML = `
-    <div class="crop-detail-header">
-      <div class="crop-detail-emoji">${crop.emoji}</div>
-      <div class="crop-detail-info">
-        <h2>${crop.name}</h2>
-        <p>${crop.tagline}</p>
-        <div class="crop-meta-pills">
-          <span class="meta-pill">📅 ${crop.season}</span>
-          <span class="meta-pill">⏱ ${crop.duration}</span>
-          <span class="meta-pill">📦 Yield: ${crop.yield}</span>
-          <span class="meta-pill">💰 MSP: ${crop.msp}</span>
+  document.getElementById('crop-detail-body').innerHTML = `
+    <div class="detail-top">
+      <div class="detail-emoji">${c.emoji}</div>
+      <div class="detail-meta">
+        <h2>${c.name}</h2>
+        <p>${c.tagline}</p>
+        <div class="pills">
+          <span class="pill">📅 ${c.season}</span>
+          <span class="pill">⏱ ${c.duration}</span>
+          <span class="pill">📦 ${c.yield}</span>
+          <span class="pill">💰 ${c.msp}</span>
         </div>
       </div>
     </div>
 
-    <div class="detail-sections">
-      <div class="detail-box">
-        <h4>🌍 Soil & Climate</h4>
-        <p><b>Soil:</b> ${crop.soil}</p>
-        <p style="margin-top:8px"><b>Climate:</b> ${crop.climate}</p>
+    <div class="info-grid">
+      <div class="info-box">
+        <h4>🌍 Soil &amp; Climate</h4>
+        <p><strong>Soil:</strong> ${c.soil}</p>
+        <p style="margin-top:6px"><strong>Climate:</strong> ${c.climate}</p>
       </div>
-      <div class="detail-box gold-border">
-        <h4>💧 Water Requirements</h4>
-        <p>${crop.water}</p>
+      <div class="info-box">
+        <h4>💧 Water</h4>
+        <p>${c.water}</p>
       </div>
-      <div class="detail-box blue-border">
+      <div class="info-box">
         <h4>🧪 Fertilizer Schedule</h4>
-        <ul>${crop.fertilizers.map(f => `<li>${f}</li>`).join('')}</ul>
+        <ul>${c.fertilizers.map(f => `<li>${f}</li>`).join('')}</ul>
       </div>
-      <div class="detail-box red-border">
-        <h4>🐛 Pest & Disease Control</h4>
-        <ul>${crop.pesticides.map(p => `<li>${p}</li>`).join('')}</ul>
+      <div class="info-box">
+        <h4>🐛 Pest &amp; Disease Control</h4>
+        <ul>${c.pesticides.map(p => `<li>${p}</li>`).join('')}</ul>
       </div>
-    </div>
-
-    <div class="detail-box" style="margin-top:20px; border-left-color: var(--green-light);">
-      <h4>📋 Step-by-Step Procedure</h4>
-      <ol class="steps-list">
-        ${crop.steps.map((s, i) => `
-          <li>
-            <div class="step-num">${i + 1}</div>
-            <span>${s}</span>
-          </li>
-        `).join('')}
-      </ol>
-    </div>
-
-    <div class="detail-box" style="margin-top:20px; border-left-color: var(--gold);">
-      <h4>👥 Who Benefits From Growing ${crop.name}?</h4>
-      <div class="beneficiary-chips">
-        ${crop.beneficiaries.map(b => `<span class="chip">${b}</span>`).join('')}
+      <div class="info-box full">
+        <h4>📋 Step-by-Step Procedure</h4>
+        <ol class="steps-list">
+          ${c.steps.map((s, i) => `
+            <li><div class="step-n">${i + 1}</div><span>${s}</span></li>
+          `).join('')}
+        </ol>
+      </div>
+      <div class="info-box full">
+        <h4>👥 Who Benefits?</h4>
+        <div class="chips">
+          ${c.beneficiaries.map(b => `<span class="chip">${b}</span>`).join('')}
+        </div>
       </div>
     </div>
   `;
 }
 
-function showCropList() {
-  document.getElementById('crop-list-view').classList.remove('hidden');
-  document.getElementById('crop-detail-view').classList.remove('active');
+function backToList() {
+  document.getElementById('crop-list').classList.remove('hide');
+  document.getElementById('crop-detail').classList.remove('show');
 }
 
-
-// ===================================================================
-//  MARKET ACCESS — TABLE & BUYERS
-// ===================================================================
+// ── MARKET ────────────────────────────────────────────────────
 function renderMarket(filter) {
-  const data = filter === 'all'
-    ? marketData
-    : marketData.filter(r => r.filter === filter);
+  const rows = filter === 'all' ? marketData : marketData.filter(r => r.filter === filter);
 
-  document.getElementById('market-tbody').innerHTML = data.map(r => `
+  document.getElementById('mkt-body').innerHTML = rows.map(r => `
     <tr>
-      <td><b>${r.crop}</b></td>
+      <td><strong>${r.crop}</strong></td>
       <td>${r.mandi}</td>
       <td>₹${r.min.toLocaleString()}</td>
       <td>₹${r.max.toLocaleString()}</td>
-      <td class="${r.trend === 'up' ? 'price-up' : r.trend === 'down' ? 'price-down' : 'price-stable'}">
+      <td class="${r.trend === 'up' ? 'up' : r.trend === 'down' ? 'down' : 'stable'}">
         ₹${r.modal.toLocaleString()}
       </td>
       <td>${r.trend === 'up' ? '📈 Rising' : r.trend === 'down' ? '📉 Falling' : '➡️ Stable'}</td>
     </tr>
   `).join('');
 
-  document.getElementById('buyer-cards').innerHTML = buyers.map(b => `
+  document.getElementById('buyers-grid').innerHTML = buyers.map(b => `
     <div class="buyer-card">
       <div class="buyer-name">${b.name}</div>
       <div class="buyer-crop">${b.crop}</div>
       <div class="buyer-price">${b.price}</div>
-      <div class="buyer-location">📍 ${b.location}</div>
-      <button class="contact-btn-sm"
+      <div class="buyer-loc">📍 ${b.location}</div>
+      <button class="contact-sm"
         onclick="alert('Contact request sent to ${b.name}! They will reach you within 24 hours.')">
         Contact Buyer
       </button>
@@ -194,27 +158,17 @@ function renderMarket(filter) {
   `).join('');
 }
 
-function filterMarket(val) {
-  renderMarket(val);
-}
-
-
-// ===================================================================
-//  CONSULTATION — Q&A
-// ===================================================================
+// ── CONSULTATION ──────────────────────────────────────────────
 function renderQuestions() {
-  document.getElementById('question-list').innerHTML = questions.map(q => `
-    <div class="q-card ${q.status}">
-      <div class="q-meta">👤 ${q.name} · 🌾 ${q.crop} · 📍 ${q.district}</div>
-      <div class="q-text">${q.text}</div>
-      ${q.answer
-        ? `<div class="q-answer">💡 <b>Expert Answer:</b> ${q.answer}</div>`
-        : ''}
-      <span class="q-status ${
-        q.status === 'answered' ? 'status-answered'
-        : q.status === 'pending' ? 'status-pending'
-        : 'status-new'
-      }">${q.status.toUpperCase()}</span>
+  document.getElementById('qa-list').innerHTML = questions.map(q => `
+    <div class="qa-card">
+      <div class="qa-meta">👤 ${q.name} &nbsp;·&nbsp; 🌾 ${q.crop} &nbsp;·&nbsp; 📍 ${q.district}</div>
+      <div class="qa-q">${q.text}</div>
+      ${q.answer ? `<div class="qa-ans"><strong>💡 Expert:</strong> ${q.answer}</div>` : ''}
+      <span class="qa-status ${
+        q.status === 'answered' ? 's-answered'
+        : q.status === 'pending' ? 's-pending' : 's-new'
+      }">${q.status}</span>
     </div>
   `).join('');
 }
@@ -225,24 +179,11 @@ function submitQuestion() {
   const text     = document.getElementById('q-text').value.trim();
   const district = document.getElementById('q-district').value;
 
-  if (!name || !crop || !text) {
-    alert('Please fill in all required fields.');
-    return;
-  }
+  if (!name || !crop || !text) { alert('Please fill in all required fields.'); return; }
 
-  // Add new question to the top of the list (simulating DB insert)
-  questions.unshift({
-    name,
-    crop,
-    district: district || 'Unknown',
-    text,
-    answer: null,
-    status: 'new'
-  });
-
+  questions.unshift({ name, crop, district: district || 'Unknown', text, answer: null, status: 'new' });
   renderQuestions();
 
-  // Clear the form
   document.getElementById('q-name').value     = '';
   document.getElementById('q-text').value     = '';
   document.getElementById('q-crop').value     = '';
@@ -251,35 +192,15 @@ function submitQuestion() {
   showToast('q-toast');
 }
 
-
-// ===================================================================
-//  CONTACT FORM TOAST
-// ===================================================================
+// ── TOAST ─────────────────────────────────────────────────────
 function showToast(id) {
-  const t = document.getElementById(id);
-  t.classList.add('show');
-  setTimeout(() => t.classList.remove('show'), 4000);
+  const el = document.getElementById(id);
+  el.classList.add('show');
+  setTimeout(() => el.classList.remove('show'), 4000);
 }
 
-
-// ===================================================================
-//  SCROLL REVEAL ANIMATION
-// ===================================================================
-const revealObserver = new IntersectionObserver(entries => {
-  entries.forEach(e => {
-    if (e.isIntersecting) e.target.classList.add('visible');
-  });
-}, { threshold: 0.1 });
-
-document.querySelectorAll('.reveal').forEach(el => revealObserver.observe(el));
-
-
-// ===================================================================
-//  HEADER SHADOW ON SCROLL
-// ===================================================================
+// ── HEADER SHADOW ON SCROLL ────────────────────────────────────
 window.addEventListener('scroll', () => {
-  const h = document.getElementById('header');
-  h.style.boxShadow = window.scrollY > 50
-    ? '0 4px 20px rgba(0,0,0,0.3)'
-    : 'none';
+  document.querySelector('header').style.boxShadow =
+    window.scrollY > 10 ? '0 1px 6px rgba(0,0,0,0.08)' : 'none';
 });

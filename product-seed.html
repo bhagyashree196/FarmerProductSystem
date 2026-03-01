@@ -4,65 +4,94 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Hybrid Wheat Seeds — Farmers Hub</title>
-<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=DM+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Lora:wght@600;700&display=swap" rel="stylesheet">
 <style>
-:root{--green-dark:#1a3a1f;--green-accent:#4a8c3f;--gold:#c8972a;--cream:#f7f3ec;--cream-dark:#ede8df;--text-dark:#1c1c1c;--text-mid:#444;--white:#fff;}
+:root{--green:#2d6a4f;--green-lt:#40916c;--green-bg:#f0f7f4;--ink:#111827;--ink-2:#374151;--ink-3:#6b7280;--border:#e5e7eb;--bg:#fff;--bg-2:#f9fafb;--radius:8px;}
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
-body{font-family:'DM Sans',sans-serif;background:var(--cream);}
-header{background:var(--green-dark);padding:0 5vw;height:70px;display:flex;align-items:center;justify-content:space-between;}
-.logo-text{font-family:'Playfair Display',serif;color:white;font-size:22px;}
-.logo-text span{color:#e8b84b;}
-nav a{color:rgba(255,255,255,0.8);text-decoration:none;margin-left:24px;font-size:14px;}
-.product-page{max-width:900px;margin:0 auto;padding:50px 5vw;}
-.product-layout{display:grid;grid-template-columns:1fr 1.2fr;gap:40px;align-items:start;}
+body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--ink);-webkit-font-smoothing:antialiased;}
+a{text-decoration:none;color:inherit;}
+header{border-bottom:1px solid var(--border);height:60px;display:flex;align-items:center;padding:0 5vw;justify-content:space-between;}
+.logo{display:flex;align-items:center;gap:10px;font-family:'Lora',serif;font-size:18px;font-weight:700;color:var(--green);}
+.logo-mark{width:32px;height:32px;background:var(--green);border-radius:6px;display:flex;align-items:center;justify-content:center;color:white;font-size:16px;}
+nav a{font-size:14px;font-weight:500;color:var(--ink-2);margin-left:20px;}
+nav a:hover{color:var(--ink);}
+
+.page-wrap{max-width:960px;margin:0 auto;padding:40px 5vw;}
+.breadcrumb{display:flex;align-items:center;gap:6px;font-size:13px;color:var(--ink-3);margin-bottom:28px;}
+.breadcrumb a{color:var(--ink-3);}
+.breadcrumb a:hover{color:var(--green);}
+.breadcrumb span{color:var(--ink-3);}
+
+.product-layout{display:grid;grid-template-columns:1fr 1.15fr;gap:44px;align-items:start;}
 @media(max-width:640px){.product-layout{grid-template-columns:1fr;}}
-.product-image{border-radius:20px;overflow:hidden;box-shadow:0 8px 30px rgba(0,0,0,0.12);}
-.product-image img{width:100%;display:block;}
-.product-tag{display:inline-block;background:rgba(74,140,63,0.1);color:var(--green-accent);padding:4px 12px;border-radius:10px;font-size:12px;font-weight:600;margin-bottom:12px;}
-.product-title{font-family:'Playfair Display',serif;font-size:34px;color:var(--green-dark);margin-bottom:10px;}
-.product-desc{font-size:15px;color:var(--text-mid);line-height:1.7;margin-bottom:20px;}
-.product-price-big{font-size:32px;font-weight:700;color:var(--green-accent);margin-bottom:20px;}
-.info-list{list-style:none;padding:0;margin-bottom:24px;}
-.info-list li{display:flex;gap:10px;padding:10px 0;border-bottom:1px solid var(--cream-dark);font-size:14px;color:var(--text-mid);}
-.info-list li strong{min-width:120px;color:var(--text-dark);}
-.buy-btn{display:inline-block;padding:14px 32px;background:var(--green-accent);color:white;border-radius:10px;font-size:16px;font-weight:600;text-decoration:none;transition:background 0.2s;border:none;cursor:pointer;font-family:'DM Sans',sans-serif;}
-.buy-btn:hover{background:var(--green-dark);}
-.back-btn{display:inline-flex;align-items:center;gap:6px;padding:8px 16px;background:var(--cream-dark);border:none;border-radius:8px;font-size:14px;font-weight:500;cursor:pointer;font-family:'DM Sans',sans-serif;color:var(--text-dark);text-decoration:none;margin-bottom:28px;}
-.back-btn:hover{background:#ddd;}
-footer{background:#0f2012;padding:24px 5vw;text-align:center;}
-footer p{color:rgba(255,255,255,0.4);font-size:13px;}
+.product-img{border-radius:10px;overflow:hidden;border:1px solid var(--border);}
+.product-img img{width:100%;display:block;}
+
+.p-tag{display:inline-block;font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:0.4px;background:var(--green-bg);color:var(--green);padding:3px 9px;border-radius:10px;margin-bottom:12px;}
+.product-info h1{font-family:'Lora',serif;font-size:26px;font-weight:700;color:var(--ink);margin-bottom:10px;}
+.product-info p.desc{font-size:14px;color:var(--ink-2);line-height:1.75;margin-bottom:18px;}
+.big-price{font-family:'Lora',serif;font-size:28px;font-weight:700;color:var(--green);margin-bottom:22px;}
+.big-price small{font-size:15px;font-weight:400;color:var(--ink-3);font-family:'Inter',sans-serif;}
+
+.spec-table{width:100%;border-collapse:collapse;margin-bottom:22px;}
+.spec-table tr{border-bottom:1px solid var(--border);}
+.spec-table tr:last-child{border-bottom:none;}
+.spec-table td{padding:9px 0;font-size:13px;vertical-align:top;}
+.spec-table td:first-child{color:var(--ink-3);font-weight:600;width:140px;}
+.spec-table td:last-child{color:var(--ink-2);}
+
+.buy-btn{display:inline-flex;align-items:center;gap:8px;padding:11px 24px;background:var(--green);color:white;border:none;border-radius:var(--radius);font-size:14px;font-weight:600;cursor:pointer;font-family:'Inter',sans-serif;transition:background 0.15s;}
+.buy-btn:hover{background:var(--green-lt);}
+
+footer{border-top:1px solid var(--border);padding:18px 5vw;display:flex;justify-content:space-between;align-items:center;font-size:13px;color:var(--ink-3);margin-top:60px;}
+footer a{color:var(--ink-3);}footer a:hover{color:var(--ink);}
 </style>
 </head>
 <body>
 <header>
-  <div class="logo-text">🌾 Farmers <span>Hub</span></div>
-  <nav><a href="index.html">Home</a><a href="products.html">Products</a></nav>
+  <div class="logo"><div class="logo-mark">🌾</div>Farmers Hub</div>
+  <nav>
+    <a href="index.html">Home</a>
+    <a href="products.html">Products</a>
+  </nav>
 </header>
-<div class="product-page">
-  <a href="products.html" class="back-btn">← Back to Products</a>
+
+<div class="page-wrap">
+  <div class="breadcrumb">
+    <a href="index.html">Home</a><span>/</span>
+    <a href="products.html">Products</a><span>/</span>
+    <span style="color:var(--ink)">Hybrid Wheat Seeds</span>
+  </div>
+
   <div class="product-layout">
-    <div class="product-image">
+    <div class="product-img">
       <img src="https://images.unsplash.com/photo-1586773860418-d37222d8fce3?auto=format&fit=crop&w=800&q=80" alt="Hybrid Wheat Seeds">
     </div>
-    <div>
-      <div class="product-tag">🌾 Seeds — Rabi Crop</div>
-      <h1 class="product-title">Hybrid Wheat Seeds</h1>
-      <p class="product-desc">Premium quality disease-resistant hybrid wheat seeds, ideal for Rabi season cultivation across Maharashtra's diverse soil types. Delivers consistently high yields with proper care.</p>
-      <div class="product-price-big">₹120 <span style="font-size:18px;color:var(--text-mid);font-weight:400;">/ kg</span></div>
-      <ul class="info-list">
-        <li><strong>Crop Type</strong>Wheat (Triticum aestivum)</li>
-        <li><strong>Season</strong>Rabi (Sow Oct–Dec; Harvest Mar–Apr)</li>
-        <li><strong>Seed Rate</strong>40–45 kg/acre</li>
-        <li><strong>Suitable Soil</strong>Loam to clay-loam, pH 6.0–7.5</li>
-        <li><strong>Expected Yield</strong>25–45 Quintals/Acre</li>
-        <li><strong>Germination</strong>> 90% guaranteed</li>
-        <li><strong>Disease Resistance</strong>Yellow Rust, Brown Rust resistant</li>
-        <li><strong>Packing</strong>Available in 1kg, 5kg, 25kg bags</li>
-      </ul>
+    <div class="product-info">
+      <div class="p-tag">🌾 Seeds — Rabi Crop</div>
+      <h1>Hybrid Wheat Seeds</h1>
+      <p class="desc">Premium quality disease-resistant hybrid wheat seeds, ideal for Rabi season cultivation across Maharashtra's diverse soil types. Delivers consistently high yields with proper care.</p>
+      <div class="big-price">₹120 <small>/ kg</small></div>
+
+      <table class="spec-table">
+        <tr><td>Crop Type</td><td>Wheat (Triticum aestivum)</td></tr>
+        <tr><td>Season</td><td>Rabi — Sow Oct–Dec, Harvest Mar–Apr</td></tr>
+        <tr><td>Seed Rate</td><td>40–45 kg / acre</td></tr>
+        <tr><td>Suitable Soil</td><td>Loam to clay-loam, pH 6.0–7.5</td></tr>
+        <tr><td>Expected Yield</td><td>25–45 Quintals / Acre</td></tr>
+        <tr><td>Germination</td><td>&gt; 90% guaranteed</td></tr>
+        <tr><td>Disease Resistance</td><td>Yellow Rust, Brown Rust resistant</td></tr>
+        <tr><td>Packing</td><td>1 kg, 5 kg, 25 kg bags available</td></tr>
+      </table>
+
       <button class="buy-btn" onclick="alert('Order placed! Our team will contact you shortly.')">🛒 Buy Now</button>
     </div>
   </div>
 </div>
-<footer><p>© 2026 Farmers Hub | Maharashtra, India</p></footer>
+
+<footer>
+  <span>© 2026 Farmers Hub</span>
+  <a href="products.html">← Back to Products</a>
+</footer>
 </body>
 </html>
